@@ -1,0 +1,51 @@
+<div class="container">
+  <!-- Intro institucional -->
+  <div class="intro">
+    <img
+      src="assets/img/gobierno-jujuy.png"
+      alt="Gobierno de Jujuy"
+      class="logo"
+    />
+    <p class="descripcion">
+      Aquí encontrarás los cursos que te ayudarán a progresar en tu experiencia
+      laboral junto a los mejores profesionales de Jujuy, a través del Gobierno
+      de Jujuy.
+    </p>
+  </div>
+
+  <hr class="separador" />
+
+  <!-- Título y filtro -->
+  <div class="header-cursos">
+    <h2 class="titulo-cursos">Nuestros Cursos</h2>
+
+    <select [(ngModel)]="localidadSeleccionada" class="filtro-select">
+      <option value="">Todas las localidades</option>
+      <option *ngFor="let loc of localidadesUnicas" [value]="loc">
+        {{ loc }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Listado de cursos -->
+  <div class="cursos">
+    <div class="curso-card" *ngFor="let curso of cursosFiltrados()">
+      <h3>{{ curso.titulo }}</h3>
+
+      <p>{{ curso.descripcion }}</p>
+
+      <p>
+        <strong>Inicio:</strong>
+        {{ curso.fecha_inicio | date: 'dd/MM/yyyy' }}
+      </p>
+
+      <button (click)="openForm(curso.formulario)">
+        Inscribirme
+      </button>
+
+      <a [routerLink]="['/curso', curso.id]" class="link-detalle">
+        🔎 Ver más
+      </a>
+    </div>
+  </div>
+</div>

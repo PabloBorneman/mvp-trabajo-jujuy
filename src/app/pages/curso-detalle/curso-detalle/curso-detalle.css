@@ -1,0 +1,105 @@
+/* --- contenedor general --- */
+.container-detalle {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* --- breadcrumb --- */
+.bread {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  color: #0d47a1;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+/* --- intro (logo + texto) --- */
+.intro-detalle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+}
+
+.descripcion {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* separador */
+.separador {
+  border: none;
+  border-top: 2px solid #eee;
+  margin: 2rem 0;
+}
+
+/* --- tarjeta de detalle --- */
+.detalle-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #1976d2;
+}
+
+.detalle-card h2 {
+  margin-top: 0;
+  color: #0d47a1;
+}
+
+.sub {
+  margin: 0.8rem 0;
+}
+
+.badge {
+  background: #1976d2;
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.chip {
+  display: inline-block;
+  background: #e3f2fd;
+  color: #0d47a1;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-right: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+button {
+  margin-top: 1.2rem;
+  padding: 0.55rem 1.3rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #115293;
+}
+
+/* responsive */
+@media (max-width: 600px) {
+  .intro-detalle {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    margin: 0 auto;
+  }
+}

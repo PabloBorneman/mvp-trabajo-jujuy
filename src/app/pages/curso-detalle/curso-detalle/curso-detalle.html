@@ -1,0 +1,43 @@
+<div class="container-detalle">
+
+  <!-- Breadcrumb -->
+  <a routerLink="/" class="bread">← Volver al listado</a>
+
+  <!-- Intro institucional (igual que Home) -->
+  <div class="intro-detalle">
+    <img
+      src="assets/img/gobierno-jujuy.png"
+      alt="Gobierno de Jujuy"
+      class="logo"
+    />
+    <p class="descripcion">
+      Formación gratuita impulsada por la Secretaría de Trabajo y Empleo de la
+      Provincia de Jujuy.
+    </p>
+  </div>
+
+  <hr class="separador" />
+
+  <!-- Card de detalle -->
+  <div *ngIf="curso" class="detalle-card">
+    <h2>{{ curso.titulo }}</h2>
+
+    <p>{{ curso.descripcion }}</p>
+
+    <p class="sub">
+      <strong>Localidades:</strong>
+      <span class="chip" *ngFor="let loc of curso.localidades">
+        {{ loc }}
+      </span>
+    </p>
+
+    <p class="sub">
+      <strong>Inicio:</strong>
+      <span class="badge">{{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+    </p>
+
+    <button (click)="openForm(curso.formulario)">
+      Inscribirme
+    </button>
+  </div>
+</div>
