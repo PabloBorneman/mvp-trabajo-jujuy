@@ -6,8 +6,8 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
-  background: #f5f6fa;
-  color: #333;
+  background: var(--color-fondo);
+  color: var(--color-texto);
 }
 
 /* -------- Contenedor principal -------- */
@@ -47,8 +47,50 @@ body {
 /* -------- Título sección -------- */
 .titulo-cursos {
   font-size: 2rem;
+  color: var(--color-primario);
+  margin: 0;
+}
+
+/* -------- Header con título y filtro -------- */
+.header-cursos {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 1.5rem;
-  color: #0d47a1;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* -------- Filtro con mensaje arriba -------- */
+.filtro-con-mensaje {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  max-width: 250px;
+}
+
+/* -------- Label -------- */
+.label-localidad {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-primario);
+  text-align: center;
+  width: 100%;
+}
+
+/* -------- Selector de localidad -------- */
+.filtro-select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 250px;
+  background: var(--color-blanco);
+  color: var(--color-texto);
 }
 
 /* -------- Grid de cursos -------- */
@@ -60,26 +102,26 @@ body {
 
 /* -------- Tarjeta -------- */
 .curso-card {
-  background: #fff;
+  background: var(--color-blanco);
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid #1976d2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid var(--color-primario);
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
 .curso-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .curso-card h3 {
   margin: 0 0 .5rem;
   font-size: 1.25rem;
-  color: #0d47a1;
+  color: var(--color-primario);
 }
 
 .curso-card p {
@@ -88,8 +130,8 @@ body {
   font-size: 0.95rem;
 }
 
-.curso-card strong {
-  color: #1976d2;
+.curso-card strong {               /* “Inicio:” */
+  color: var(--color-secundario);
 }
 
 /* -------- Botón -------- */
@@ -99,15 +141,15 @@ body {
   padding: .55rem 1.2rem;
   border: none;
   border-radius: 6px;
-  background: #1976d2;
-  color: #fff;
+  background: var(--color-primario);   /* azul de botón */
+  color: var(--color-blanco);
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background .2s ease;
 }
 
 .curso-card button:hover {
-  background: #115293;
+  background: #093656;                /* azul un poco más oscuro */
 }
 
 /* -------- Link "Ver más" -------- */
@@ -115,7 +157,7 @@ body {
   margin-top: 0.5rem;
   display: inline-block;
   font-size: 0.9rem;
-  color: #1976d2;
+  color: var(--color-primario);
   text-decoration: underline;
 }
 
@@ -125,29 +167,22 @@ body {
     flex-direction: column;
     text-align: center;
   }
-
   .logo {
     margin: 0 auto;
   }
-
   .descripcion {
     font-size: 1rem;
     padding: 0 1rem;
   }
-}
- .header-cursos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.filtro-select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  min-width: 220px;
+  .header-cursos {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .filtro-con-mensaje {
+    width: 100%;
+    max-width: 250px;
+  }
+  .filtro-select {
+    width: 100%;
+  }
 }

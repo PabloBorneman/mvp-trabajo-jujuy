@@ -7,9 +7,7 @@
       class="logo"
     />
     <p class="descripcion">
-      Aquí encontrarás los cursos que te ayudarán a progresar en tu experiencia
-      laboral junto a los mejores profesionales de Jujuy, a través del Gobierno
-      de Jujuy.
+      Impulsamos tu crecimiento profesional a través de capacitaciones gratuitas y de calidad, orientadas a oficios con alta demanda en Jujuy. Sumate a esta iniciativa del Gobierno Provincial para fortalecer tu empleabilidad y construir un futuro laboral sólido.
     </p>
   </div>
 
@@ -19,12 +17,17 @@
   <div class="header-cursos">
     <h2 class="titulo-cursos">Nuestros Cursos</h2>
 
-    <select [(ngModel)]="localidadSeleccionada" class="filtro-select">
-      <option value="">Todas las localidades</option>
-      <option *ngFor="let loc of localidadesUnicas" [value]="loc">
-        {{ loc }}
-      </option>
-    </select>
+    <div class="filtro-con-mensaje">
+      <label class="label-localidad" for="filtro-localidad">
+        Seleccioná tu localidad
+      </label>
+      <select id="filtro-localidad" [(ngModel)]="localidadSeleccionada" class="filtro-select">
+        <option value="">Todas las localidades</option>
+        <option *ngFor="let loc of localidadesUnicas" [value]="loc">
+          {{ loc }}
+        </option>
+      </select>
+    </div>
   </div>
 
   <!-- Listado de cursos -->

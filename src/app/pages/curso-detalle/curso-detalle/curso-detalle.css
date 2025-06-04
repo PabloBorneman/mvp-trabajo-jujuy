@@ -1,15 +1,16 @@
 /* --- contenedor general --- */
 .container-detalle {
-  max-width: 960px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  color: var(--color-texto);
 }
 
 /* --- breadcrumb --- */
 .bread {
   display: inline-block;
   margin-bottom: 1.2rem;
-  color: #0d47a1;
+  color: var(--color-primario);
   text-decoration: none;
   font-size: 0.95rem;
 }
@@ -20,17 +21,19 @@
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .logo {
-  width: 180px;
+  width: 220px;
   height: auto;
 }
 
 .descripcion {
   flex: 1;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-texto);
 }
 
 /* separador */
@@ -42,64 +45,89 @@
 
 /* --- tarjeta de detalle --- */
 .detalle-card {
-  background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid #1976d2;
+  background: var(--color-blanco);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid var(--color-primario);
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
+.detalle-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* título */
 .detalle-card h2 {
-  margin-top: 0;
-  color: #0d47a1;
+  margin: 0 0 .5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primario);
 }
 
-.sub {
-  margin: 0.8rem 0;
+/* párrafos generales más grandes */
+.detalle-card p {
+  margin: .3rem 0;
+  font-size: 1.05rem;        /* ↑ tamaño */
+  line-height: 1.6;
 }
 
+/* primera descripción en negrita */
+.detalle-card p:first-of-type {
+  font-weight: 600;
+}
+
+/* “Inicio:” y otros strong */
+.detalle-card strong {
+  font-weight: 700;
+  color: var(--color-secundario);
+}
+
+.sub { margin: 0.8rem 0; }
+
+/* etiqueta fecha */
 .badge {
-  background: #1976d2;
-  color: #fff;
+  background: var(--color-secundario);
+  color: var(--color-blanco);
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
+/* chip de localidades */
 .chip {
   display: inline-block;
-  background: #e3f2fd;
-  color: #0d47a1;
+  background: rgba(14,47,75,0.08);
+  color: var(--color-primario);
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   margin-right: 0.4rem;
   margin-top: 0.3rem;
 }
 
+/* botón inscripción */
 button {
-  margin-top: 1.2rem;
-  padding: 0.55rem 1.3rem;
-  background: #1976d2;
-  color: #fff;
+  align-self: start;
+  margin-top: 1rem;
+  padding: 0.55rem 1.2rem;
   border: none;
   border-radius: 6px;
+  background: var(--color-primario);
+  color: var(--color-blanco);
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background .2s ease;
 }
 
-button:hover {
-  background: #115293;
-}
+button:hover { background: #093656; }
 
 /* responsive */
 @media (max-width: 600px) {
-  .intro-detalle {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .logo {
-    margin: 0 auto;
-  }
+  .intro-detalle { flex-direction: column; text-align: center; }
+  .logo          { margin: 0 auto; }
+  .descripcion   { font-size: 1rem; padding: 0 1rem; }
 }
