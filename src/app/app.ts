@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ChatFloatComponent } from './components/chat-float/chat-float/chat-float';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, CommonModule, FormsModule, ChatFloatComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
