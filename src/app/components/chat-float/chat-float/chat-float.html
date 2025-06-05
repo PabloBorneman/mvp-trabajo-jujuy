@@ -1,12 +1,29 @@
 <div class="chat-toggle-button" (click)="toggleChat()">
-  💬 Chat Cursos
+  <img src="assets/img/avatar-chatbot.png" alt="Chatbot Avatar" class="chatbot-icon" />
+  Asistente Virtual de Cursos
 </div>
 
 <div class="chat-box" *ngIf="chatVisible">
   <div class="chat-header">
-    <span>Asistente de Cursos</span>
+    <span>Asistente Virtual de Cursos</span>
     <button (click)="toggleChat()">✖</button>
   </div>
+
+  <div class="chat-welcome-card" *ngIf="mostrarModal">
+  <div class="chat-welcome-header">
+    <div>
+      <h4>¡Hola! 👋</h4>
+      <p>Podés preguntarme cosas como:</p>
+      <ul>
+        <li>📅 ¿Cuándo empiezan los cursos?</li>
+        <li>📝 ¿Cómo me inscribo?</li>
+        <li>🎯 ¿Qué curso me recomiendan?</li>
+      </ul>
+      <button (click)="cerrarModal()" class="boton-entendido">Entiendo</button>
+    </div>
+  </div>
+</div>
+
 
   <div class="chat-messages">
     <div *ngFor="let msg of messages" [class.user]="msg.from === 'user'" [class.bot]="msg.from === 'bot'">
@@ -18,4 +35,6 @@
     <input [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Escribí tu pregunta..." />
     <button (click)="sendMessage()">Enviar</button>
   </div>
+
+
 </div>

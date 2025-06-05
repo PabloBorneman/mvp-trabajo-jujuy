@@ -20,10 +20,13 @@ body {
 /* -------- Intro -------- */
 .intro {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
   align-items: center;
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  padding: 2rem;
+  border-radius: 8px;
   margin-bottom: 2rem;
+  gap: 2rem;
 }
 
 .logo {
@@ -35,6 +38,11 @@ body {
   flex: 1;
   font-size: 1.1rem;
   line-height: 1.6;
+}
+
+.descripcion .resaltado {
+  color: var(--color-secundario);
+  font-weight: 600;
 }
 
 /* -------- Separador -------- */
@@ -130,7 +138,7 @@ body {
   font-size: 0.95rem;
 }
 
-.curso-card strong {               /* “Inicio:” */
+.curso-card strong {
   color: var(--color-secundario);
 }
 
@@ -141,7 +149,7 @@ body {
   padding: .55rem 1.2rem;
   border: none;
   border-radius: 6px;
-  background: var(--color-primario);   /* azul de botón */
+  background: var(--color-primario);
   color: var(--color-blanco);
   font-weight: 500;
   cursor: pointer;
@@ -149,7 +157,7 @@ body {
 }
 
 .curso-card button:hover {
-  background: #093656;                /* azul un poco más oscuro */
+  background: #093656;
 }
 
 /* -------- Link "Ver más" -------- */
@@ -184,5 +192,67 @@ body {
   }
   .filtro-select {
     width: 100%;
+  }
+}
+
+.chatbot-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--color-primario);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  color: var(--color-blanco);
+  gap: 2rem;
+}
+
+.chatbot-banner-texto {
+  flex: 1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.chatbot-banner-texto p {
+  margin: 0.4rem 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.chatbot-banner-texto h3 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: var(--color-blanco);
+  margin-top: 0;
+}
+
+.chatbot-banner-texto .subtitulo {
+  font-size: 1.2rem;
+  color: var(--color-secundario);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.chatbot-banner-texto .resaltado {
+  color: var(--color-secundario);
+  font-weight: 600;
+}
+
+.chatbot-banner-img img {
+  width: 220px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .chatbot-banner {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .chatbot-banner-img img {
+    width: 180px;
+    margin-top: 1rem;
   }
 }

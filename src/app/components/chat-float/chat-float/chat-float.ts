@@ -41,4 +41,11 @@ export class ChatFloatComponent {
 
     this.userMessage = '';
   }
+  mostrarModal = true;
+
+cerrarModal() {
+  this.mostrarModal = false;
+}
+
+
 }
