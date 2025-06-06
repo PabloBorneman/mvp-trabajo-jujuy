@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 2rem 1rem;
   color: var(--color-texto);
+  font-family: 'Poppins', sans-serif;
 }
 
 /* --- breadcrumb --- */
@@ -13,6 +14,7 @@
   color: var(--color-primario);
   text-decoration: none;
   font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* -----------------------------------------------------------------
@@ -28,6 +30,7 @@
   border-radius: 8px;
   color: var(--color-blanco);
   gap: 2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .chatbot-banner-texto {
@@ -82,6 +85,7 @@
   display: flex;
   flex-direction: column;
   transition: transform .2s ease, box-shadow .2s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .detalle-card:hover {
@@ -95,6 +99,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-primario);
+  font-family: 'Poppins', sans-serif;
 }
 
 /* párrafos generales más grandes */
@@ -115,7 +120,9 @@
   color: var(--color-secundario);
 }
 
-.sub { margin: 0.8rem 0; }
+.sub {
+  margin: 0.8rem 0;
+}
 
 /* etiqueta fecha */
 .badge {
@@ -124,6 +131,7 @@
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
   font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* chip de localidades */
@@ -136,6 +144,7 @@
   font-size: 0.85rem;
   margin-right: 0.4rem;
   margin-top: 0.3rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* botón inscripción */
@@ -150,6 +159,9 @@ button {
   font-weight: 500;
   cursor: pointer;
   transition: background .2s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
-button:hover { background: #093656; }
+button:hover {
+  background: #093656;
+}

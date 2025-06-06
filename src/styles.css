@@ -1,9 +1,11 @@
 :root {
-  --color-primario: #0E2F4B;
-  --color-secundario: #F47920;
+  --color-primario: #13304d;
+  --color-secundario: #ef7d00;
   --color-blanco: #FFFFFF;
   --color-fondo: #f5f6fa;
   --color-texto: #333333;
   --color-naranja-suave: #fcbd5f;
-  --fuente-titulo: 'Montserrat', 'Segoe UI', sans-serif;
+  --color-naranja-tenue: #fff8f0;
+
+  --fuente-base: 'Poppins', sans-serif;
 }
