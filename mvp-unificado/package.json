@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@angular/cli": "next",
+    "@angular/build": "next",
     "nodemon": "^3.0.3"
   }
 }
