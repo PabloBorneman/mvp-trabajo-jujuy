@@ -1,19 +1,21 @@
 {
-  "name": "chat-completion",
+  "name": "mvp-unificado",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend Express + build Angular para Render",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:client": "cd .. && npx ng build --configuration production && rm -rf ./mvp-unificado/public/* && cp -R ./dist/mvp-trabajo-jujuy/* ./mvp-unificado/public/",
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
-    "nodemon": "^3.0.3",
     "openai": "^4.104.0"
+  },
+  "devDependencies": {
+    "@angular/cli": "^20.0.5",
+    "nodemon": "^3.0.3"
   }
 }
