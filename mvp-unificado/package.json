@@ -15,7 +15,7 @@
     "openai": "^4.104.0"
   },
   "devDependencies": {
-    "@angular/cli": "^20.0.5",
+    "@angular/cli": "next",
     "nodemon": "^3.0.3"
   }
 }
