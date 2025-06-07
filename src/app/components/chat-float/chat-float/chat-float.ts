@@ -14,6 +14,7 @@ export class ChatFloatComponent {
   chatVisible = false;
   userMessage = '';
   messages: { from: 'user' | 'bot', text: string }[] = [];
+  mostrarModal = true;
 
   constructor(private http: HttpClient) {}
 
@@ -21,31 +22,37 @@ export class ChatFloatComponent {
     this.chatVisible = !this.chatVisible;
   }
 
+  cerrarModal() {
+    this.mostrarModal = false;
+  }
+
   sendMessage() {
     const message = this.userMessage.trim();
     if (!message) return;
 
+    /* ---------- UI: agrega el mensaje del usuario ---------- */
     this.messages.push({ from: 'user', text: message });
 
+    /* ---------- HTTP POST al backend ---------- */
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.http.post<{ message: string }>('http://localhost:3000/chat', { message }, { headers })
+    /*  🔗  Ruta relativa: el mismo dominio sirve /api/chat
+        Funciona en local (http://localhost:10000/api/chat)
+        y en Render (https://mvp-unificado.onrender.com/api/chat)                 */
+    this.http
+      .post<{ message: string }>('/api/chat', { message }, { headers })
       .subscribe({
         next: res => {
           this.messages.push({ from: 'bot', text: res.message });
         },
         error: () => {
-          this.messages.push({ from: 'bot', text: 'Hubo un error al conectar con el asistente.' });
+          this.messages.push({
+            from: 'bot',
+            text: 'Hubo un error al conectar con el asistente.'
+          });
         }
       });
 
     this.userMessage = '';
   }
-  mostrarModal = true;
-
-cerrarModal() {
-  this.mostrarModal = false;
-}
-
-
 }
