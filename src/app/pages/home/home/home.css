@@ -1,271 +1,267 @@
-/* -------- Layout general -------- */
-* {
-  box-sizing: border-box;
+/* =====================  Layout general  ===================== */
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:var(--color-fondo);
+  color:var(--color-texto);
 }
 
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: var(--color-fondo);
-  color: var(--color-texto);
+/* =================  Contenedor principal  =================== */
+.container{ max-width:1140px; margin:0 auto; padding:2rem 1rem; }
+
+/* ========================  Intro  =========================== */
+.intro{
+  display:flex; align-items:center;
+  background:var(--color-primario); color:var(--color-blanco);
+  padding:2rem; border-radius:8px; margin-bottom:2rem; gap:2rem;
+}
+.logo{ width:220px; height:auto; }
+
+.descripcion{ flex:1; font-size:1.1rem; line-height:1.6; }
+.descripcion .resaltado{ color:var(--color-secundario); font-weight:600; }
+
+/* =====================  Separador  ========================== */
+.separador{ border:none; border-top:2px solid #eee; margin:2rem 0; }
+
+/* =================  Título de sección  ====================== */
+.titulo-cursos{
+  font-size:2rem; color:var(--color-primario); margin:0;
+  font-family:'Poppins',sans-serif;
 }
 
-/* -------- Contenedor principal -------- */
-.container {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+/* ===== Header con título y filtro de localidad  ============= */
+.header-cursos{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;
 }
 
-/* -------- Intro -------- */
-.intro {
-  display: flex;
-  align-items: center;
+/* ==============  Filtro y mensaje de localidad  ============== */
+.filtro-con-mensaje{
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+  width:100%; max-width:250px;
+}
+.label-localidad{
+  font-family:'Poppins',sans-serif; font-size:1rem; font-weight:600;
+  color:var(--color-primario); text-align:center; width:100%;
+}
+.filtro-select{
+  padding:.5rem; font-size:1rem; border:1px solid #ccc; border-radius:6px;
+  width:100%; max-width:250px; background:var(--color-blanco);
+  color:var(--color-texto); font-family:'Poppins',sans-serif;
+}
+
+/* ===================  Grid de cursos  ======================= */
+.cursos{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+
+/* ===================  Tarjeta curso  ======================== */
+.curso-card{
+  position:relative; overflow:hidden; background:#f0f4f8;
+  border:1px solid rgba(0,0,0,.08); border-left:5px solid var(--color-primario);
+  border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.08);
+  height:100%; transition:transform .2s ease,box-shadow .2s ease;
+  font-family:'Poppins',sans-serif; display:flex; flex-direction:column;
+}
+.curso-card:hover{ transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
+
+/* -------- Contenido tarjeta -------- */
+.curso-contenido{
+  position:relative; z-index:2; padding:2.2rem 1.5rem 0;
+  display:flex; flex-direction:column; height:100%; color:var(--color-primario); flex:1 1 auto;
+}
+.curso-contenido h3{ margin:1.05rem 0 .5rem; font-size:1.25rem; color:var(--color-primario); min-height:3rem; display:flex; align-items:center; }
+
+/* -------- Descripción con overlay -------- */
+.curso-descripcion{
+  position:relative; height:180px; margin:.3rem 0;
+  font-size:.95rem; line-height:1.45; overflow-y:auto; padding-right:2px;
+}
+.curso-descripcion::-webkit-scrollbar{ width:4px; }
+.curso-descripcion::-webkit-scrollbar-thumb{ background:rgba(0,0,0,.25); border-radius:2px; }
+.curso-descripcion::before{
+  content:''; position:absolute; inset:0; background:url('/assets/img/default-curso.png') center/cover no-repeat;
+  transition:opacity .4s ease; z-index:2; pointer-events:none;
+}
+.curso-card:hover .curso-descripcion::before{ opacity:0; }
+.curso-descripcion .overlay-img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  pointer-events:none; transition:opacity .4s ease; z-index:2;
+}
+.curso-card:hover .overlay-img{ opacity:0; }
+
+/* -------- Botones -------- */
+.botones-curso{
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  margin:1rem 0 .8rem;
+}
+.botones-curso button{
+  padding:.55rem 1.2rem; border:none; border-radius:6px; font-weight:500;
+  cursor:pointer; transition:background .2s ease; font-family:'Poppins',sans-serif;
+}
+.botones-curso button:hover{
+  background:#093656;
+}
+.botones-curso button:first-child{ background:var(--color-primario); color:#fff; }
+.botones-curso button:first-child:hover{ background:#093656; }
+.botones-curso .boton-info{ background:var(--color-primario); color:#fff; }
+
+/* -------- Estado -------- */
+.estado-label{
+  position:absolute; top:.75rem; left:0; padding:.3rem .9rem;
+  border-top-right-radius:4px; border-bottom-right-radius:4px;
+  font-size:.85rem; font-weight:600; color:#fff; z-index:3;
+}
+.estado-inscripcion_abierta{ background:#2e7d32; }
+.estado-en_curso          { background:#fb8c00; }
+.estado-finalizado        { background:#c62828; }
+.estado-proximo           { background:#fdd835; color:#5e5959; }
+
+/* -------- Footer fecha -------- */
+.fecha-inicio{
+  margin-top:auto; padding:.3rem 1.5rem .5rem; border-top:1px solid #c9c9c9;
+  width:calc(100% + 3rem); margin-left:-1.5rem; margin-right:-1.5rem;
+  display:flex; justify-content:center; align-items:center; gap:.55rem;
+  font-size:.9rem; color:#444; background:inherit;
+}
+.fecha-inicio img{ width:18px; height:18px; object-fit:contain; flex-shrink:0; opacity:.65; }
+
+/* ===================  Responsive  ============================ */
+@media (max-width:600px){
+  .intro{ flex-direction:column; text-align:center; }
+  .logo{ margin:0 auto; }
+  .descripcion{ font-size:1rem; padding:0 1rem; }
+  .header-cursos{ flex-direction:column; align-items:flex-start; }
+  .filtro-con-mensaje{ width:100%; max-width:250px; }
+  .filtro-select{ width:100%; }
+}
+
+/* ===================================================================
+   BANNERS – institucional y chatbot (mismo marco de imagen 220×100)
+   =================================================================== */
+
+.banner{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  background:var(--color-primario); color:#fff;
+  padding:1.2rem 1.5rem; margin-bottom:1.5rem; border-radius:8px;
+  font-family:'Poppins',sans-serif;
+}
+
+/* Columna imagen */
+.banner__img{
+  flex:0 0 220px;          /* fija ancho */
+  height:100px;            /* 🔸 fija alto → banners idénticos */
+  display:flex; justify-content:center; align-items:center;
+}
+
+/* Imagen contenida sin deformar */
+.banner__img img{
+  max-width:100%; max-height:100%;
+  object-fit:contain;
+}
+
+/* Columna texto */
+.banner__texto{
+  flex:1; display:flex; flex-direction:column; align-items:center; text-align:center;
+}
+.banner__titulo   { font-size:2.6rem; font-weight:700; margin:0 0 .4rem; }
+.banner__subtitulo{ font-size:1.5rem; font-weight:500; margin:0; line-height:1.4; }
+.banner__texto .resaltado{ color:var(--color-secundario); font-weight:600; }
+
+/* Responsive banners */
+@media (max-width:768px){
+  .banner             { flex-direction:column; text-align:center; }
+  .banner__img        { flex:0 0 180px; height:80px; }
+  .banner__titulo     { font-size:2rem; }
+  .banner__subtitulo  { font-size:1.3rem; }
+}
+
+/* ===================================================================== */
+/* ==========================  INTRO MODAL  ============================= */
+/* ===================================================================== */
+
+.intro-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.45); backdrop-filter:blur(4px);
+  z-index:1000;
+}
+.intro-modal{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:var(--color-primario); border-radius:10px; box-shadow:0 8px 32px rgba(0,0,0,.25);
+  max-width:960px; width:calc(100% - 2rem); padding:2rem 2.4rem;
+  display:flex; align-items:flex-start; gap:1rem; z-index:1001; font-family:'Poppins',sans-serif;
+}
+.intro-close{
+  position:absolute; top:.6rem; right:.8rem; background:none; border:none;
+  font-size:1.9rem; line-height:1; color:#fff; cursor:pointer;
+}
+.intro-avatar{
+  flex:0 0 36%; max-width:360px; max-height:450px; width:100%; height:auto; object-fit:contain;
+}
+.intro-texto{
+  flex:1 1 0; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; text-align:center; color:#fff;
+}
+.intro-texto h2{ margin:0 0 .3rem; font-size:2.25rem; line-height:1.25; }
+.intro-texto .sublinea{ margin:0; font-size:2rem; line-height:1.25; }
+.intro-texto p{ margin:.4rem 0; font-size:1.15rem; line-height:1.5; }
+.intro-texto .resaltado{ color:var(--color-secundario); font-weight:600; }
+.intro-btn{
+  align-self:center; padding:.75rem 1.9rem; font-size:1rem;
+  background:var(--color-secundario); color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer;
+}
+
+@media (max-width:560px){
+  .intro-modal{ flex-direction:column; text-align:center; align-items:center; padding:1.6rem 1.4rem; gap:1.4rem; }
+  .intro-avatar{ flex:0 0 200px; max-width:200px; max-height:260px; }
+}
+
+/* ===================================================================== */
+/* ==========================  Boton para arriba=============== */
+/* ===================================================================== */
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 20px;
+  left: calc((100vw - 1140px) / 2 - 79px); /* 🧠 centrado entre borde y tarjetas */
+  width: 48px;
+  height: 48px;
   background-color: var(--color-primario);
-  color: var(--color-blanco);
-  padding: 2rem;
+  border: none;
   border-radius: 8px;
-  margin-bottom: 2rem;
-  gap: 2rem;
-}
-
-.logo {
-  width: 220px;
-  height: auto;
-}
-
-.descripcion {
-  flex: 1;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.descripcion .resaltado {
-  color: var(--color-secundario);
-  font-weight: 600;
-}
-
-/* -------- Separador -------- */
-.separador {
-  border: none;
-  border-top: 2px solid #eee;
-  margin: 2rem 0;
-}
-
-/* -------- Título sección -------- */
-.titulo-cursos {
-  font-size: 2rem;
-  color: var(--color-primario);
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* -------- Header con título y filtro -------- */
-.header-cursos {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* -------- Filtro con mensaje arriba -------- */
-.filtro-con-mensaje {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  width: 100%;
-  max-width: 250px;
-}
-
-/* -------- Label -------- */
-.label-localidad {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-primario);
-  text-align: center;
-  width: 100%;
-}
-
-
-/* -------- Selector de localidad -------- */
-.filtro-select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%;
-  max-width: 250px;
-  background: var(--color-blanco);
-  color: var(--color-texto);
-  font-family: 'Poppins', sans-serif;
-}
-
-/* -------- Grid de cursos -------- */
-.cursos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-/* -------- Tarjeta -------- */
-.curso-card {
-  background: #f0f4f8; /* gris casi blanco */
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border-left: 5px solid var(--color-primario);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform .2s ease, box-shadow .2s ease;
-  font-family: 'Poppins', sans-serif;
-}
-
-.curso-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.curso-card h3 {
-  margin: 0 0 .5rem;
-  font-size: 1.25rem;
-  color: var(--color-primario);
-}
-
-.curso-card p {
-  margin: .3rem 0;
-  flex-grow: 1;
-  font-size: 0.95rem;
-}
-
-.curso-card strong {
-  color: var(--color-secundario);
-}
-
-/* -------- Botón -------- */
-.curso-card button {
-  align-self: start;
-  margin-top: 1rem;
-  padding: .55rem 1.2rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--color-primario);
-  color: var(--color-blanco);
-  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: background .2s ease;
-  font-family: 'Poppins', sans-serif;
-}
+  z-index: 999;
 
-.curso-card button:hover {
-  background: #093656;
-}
-
-/* -------- Link "Ver más" -------- */
-.link-detalle {
-  margin-top: 0.5rem;
-  display: inline-block;
-  font-size: 0.9rem;
-  color: var(--color-primario);
-  text-decoration: underline;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* -------- Responsive -------- */
-@media (max-width: 600px) {
-  .intro {
-    flex-direction: column;
-    text-align: center;
-  }
-  .logo {
-    margin: 0 auto;
-  }
-  .descripcion {
-    font-size: 1rem;
-    padding: 0 1rem;
-  }
-  .header-cursos {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .filtro-con-mensaje {
-    width: 100%;
-    max-width: 250px;
-  }
-  .filtro-select {
-    width: 100%;
-  }
-}
-
-.chatbot-banner {
   display: flex;
-  justify-content: space-between;
-  align-items: center; /* 👈 alinea verticalmente */
-  background-color: var(--color-primario);
-  padding: 1.2rem 1.5rem; /* 👈 menos padding vertical */
-  margin-bottom: 1.5rem;  /* 👈 menos separación con lo de abajo */
-  border-radius: 8px;
-  color: var(--color-blanco);
-  gap: 1rem; /* 👈 reduce separación horizontal */
-  font-family: 'Poppins', sans-serif;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.3s ease-in-out;
 }
 
-
-.chatbot-banner-texto {
-  flex: 1;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.scroll-top-btn:hover {
+  background-color: var(--color-secundario);
 }
 
-.chatbot-banner-texto p {
-  margin: 0.4rem 0;
-  font-size: 1.05rem;
-  line-height: 1.4;
+.scroll-top-btn .icono-up {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transform: translateY(-1px);
 }
 
-.chatbot-banner-texto h3 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.9rem;
-  color: var(--color-blanco);
-  margin: 0 0 0.5rem; /* 👈 antes: margin-top: 0; */
+.scroll-top-btn {
+  display: none;
 }
 
-
-.chatbot-banner-texto .subtitulo {
-  font-size: 1.2rem; /* 👈 antes 1.2rem */
-  color: var(--color-secundario);
-  font-weight: 500;
-  margin-bottom: 1rem;
-  white-space: nowrap; /* 👈 fuerza una sola línea */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-.chatbot-banner-texto .resaltado {
-  color: var(--color-secundario);
-  font-weight: 600;
-}
-
-.chatbot-banner-img img {
-  width: 220px;
-  height: auto;
+.scroll-top-btn.visible {
+  display: flex;
 }
 
 @media (max-width: 768px) {
-  .chatbot-banner {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
+  .scroll-top-btn {
+    display: none !important;
   }
+}
 
-  .chatbot-banner-img img {
-  width: 180px; /* antes 220px */
-  height: auto;
-}
-}
+

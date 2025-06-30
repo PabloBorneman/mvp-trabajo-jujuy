@@ -1,50 +1,85 @@
+<!-- ─────────── Modal de bienvenida al asistente ─────────── -->
+<div *ngIf="showIntroModal">
+  <div class="intro-backdrop"></div>
+
+  <div class="intro-modal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+    <button class="intro-close" (click)="closeIntroModal()" aria-label="Cerrar">×</button>
+
+    <img src="assets/img/ella.png"
+         alt="Avatar asistente virtual Camila"
+         class="intro-avatar"
+         loading="eager"
+         fetchpriority="high">
+
+    <div class="intro-texto">
+      <h2 id="introTitle">¡Hola! Soy <span class="resaltado">Camila</span></h2>
+      <h2 class="sublinea">Tu asistente virtual</h2>
+      <h2 class="sublinea">Disponible <span class="resaltado">las 24 horas</span></h2>
+
+      <p>Buscá mi <span class="resaltado">Casco Amarillo</span> abajo a la derecha y:</p>
+
+      <p>Preguntame cualquier cosa relacionada a los
+         <span class="resaltado">Cursos</span>:
+         <span class="resaltado">fechas</span>,
+         <span class="resaltado">requisitos</span>,
+         <span class="resaltado">inscripción</span> y más.</p>
+
+      <p>Estoy acá para ayudarte a elegir
+         <span class="resaltado">el curso perfecto</span> para vos.</p>
+
+      <button class="intro-btn" (click)="closeIntroModal()">Entiendo</button>
+    </div>
+  </div>
+</div>
+<!-- ────────────────────────────────────────────────────────── -->
+
 <div class="container">
-  <!-- Intro institucional -->
-  <div class="chatbot-banner">
-  <img src="assets/img/gobierno-jujuy.png" alt="Gobierno de Jujuy" class="logo" />
-  <div class="chatbot-banner-texto">
-    <p>
-      Impulsamos tu crecimiento profesional a través de 
-      <span class="resaltado">capacitaciones gratuitas</span> y de calidad, orientadas a oficios con alta demanda en Jujuy.
-    </p>
-    <p>
-      Sumate a esta iniciativa del Gobierno Provincial para 
-      <span class="resaltado">fortalecer tu empleabilidad</span> y construir un 
-      <span class="resaltado">futuro laboral sólido</span>.
-    </p>
-  </div>
-</div>
 
-  <hr class="separador" />
+  <!-- ░░ Banner institucional ░░ -->
+  <div class="banner banner--institucional">
+    <div class="banner__img">
+      <img src="assets/img/gobierno-jujuy.png"
+           alt="Gobierno de Jujuy">
+    </div>
 
-  <div class="chatbot-banner">
-  <div class="chatbot-banner-texto">
-    <h3>¿Tenés dudas sobre los cursos?</h3>
-    <p class="subtitulo">
-      Usá nuestro <span class="resaltado">asistente virtual</span> haciendo clic en el gorrito flotante disponible  las 24 horas. 
-    </p>
-    <p>
-      Te responde <span class="resaltado">todo</span> lo que necesitás saber sobre los cursos: <span class="resaltado">fechas de inicio</span>, <span class="resaltado">modalidad</span> (presencial o virtual), <span class="resaltado">cómo inscribirte</span>, <span class="resaltado">dónde se dicta</span>, <span class="resaltado">requisitos</span> y más.
-    </p>
-    <p>
-      Además, si no sabés qué curso hacer, podés contarle tu situación personal y el chat te va a recomendar <span class="resaltado">el curso más adecuado</span> para vos.
-    </p>
+    <div class="banner__texto">
+      <h2 class="banner__titulo">Tu futuro empieza hoy</h2>
+      <p class="banner__subtitulo">
+        <span class="resaltado">Capacitaciones gratuitas</span>
+        con <span class="resaltado">salida laboral</span> en Jujuy
+      </p>
+    </div>
   </div>
-  <div class="chatbot-banner-img">
-    <img src="assets/img/avatar-chatbot.png" alt="Avatar Chatbot Gorrito" />
-  </div>
-</div>
 
+  <!-- ░░ Banner recordatorio Chatbot ░░ -->
+  <div class="banner banner--chatbot">
+
+    <div class="banner__texto">
+      <h2 class="banner__titulo">¿Tenés alguna duda sobre los cursos?</h2>
+      <p class="banner__subtitulo">
+        Hacé clic en el <span class="resaltado">casco amarillo</span> abajo a la derecha.
+      </p>
+    </div>
+
+    <div class="banner__img">
+      <img src="assets/img/avatar-chatbot.png"
+           alt="Avatar Chatbot Gorrito">
+    </div>
+
+  </div>
+
+  <hr class="separador">
 
   <!-- Título y filtro -->
   <div class="header-cursos">
     <h2 class="titulo-cursos">Nuestros Cursos</h2>
 
     <div class="filtro-con-mensaje">
-      <label class="label-localidad" for="filtro-localidad">
-        Seleccioná tu localidad
-      </label>
-      <select id="filtro-localidad" [(ngModel)]="localidadSeleccionada" class="filtro-select">
+      <label class="label-localidad" for="filtro-localidad">Seleccioná tu localidad</label>
+
+      <select id="filtro-localidad"
+              [(ngModel)]="localidadSeleccionada"
+              class="filtro-select">
         <option value="">Todas las localidades</option>
         <option *ngFor="let loc of localidadesUnicas" [value]="loc">
           {{ loc }}
@@ -55,23 +90,46 @@
 
   <!-- Listado de cursos -->
   <div class="cursos">
-    <div class="curso-card" *ngFor="let curso of cursosFiltrados()">
-      <h3>{{ curso.titulo }}</h3>
+    <div class="curso-card"
+         *ngFor="let curso of cursosFiltrados()"
+         (mouseleave)="resetScroll($event)">
 
-      <p>{{ curso.descripcion }}</p>
+      <div class="curso-contenido">
 
-      <p>
-        <strong>Inicio:</strong>
-        {{ curso.fecha_inicio | date: 'dd/MM/yyyy' }}
-      </p>
+        <div class="estado-label"
+             [ngClass]="getEstadoClase(curso.estado)">
+          {{ getEstadoTexto(curso.estado) }}
+        </div>
 
-      <button (click)="openForm(curso.formulario)">
-        Inscribirme
-      </button>
+        <h3>{{ curso.titulo }}</h3>
 
-      <a [routerLink]="['/curso', curso.id]" class="link-detalle">
-        🔎 Más Información
-      </a>
-    </div>
-  </div>
-</div>
+        <p class="curso-descripcion" (scroll)="onScroll($event)">
+          {{ curso.descripcion }}
+
+          <img class="overlay-img"
+               [src]="curso.imagen || 'assets/img/default-curso.png'"
+               (error)="onImgError($event)"
+               alt="Imagen de {{ curso.titulo }}">
+        </p>
+
+        <div class="botones-curso">
+          <button (click)="openForm(curso.formulario)">Inscribirme</button>
+          <button class="boton-info" [routerLink]="['/curso', curso.id]">🔎 Más Info</button>
+        </div>
+
+        <div class="fecha-inicio">
+          <img src="assets/img/icono-calendario.png" alt="Ícono calendario">
+          <span>Comienza: {{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+        </div>
+
+      </div><!-- /curso-contenido -->
+    </div><!-- /curso-card -->
+  </div><!-- /cursos -->
+
+  <button id="scrollTopBtn" class="scroll-top-btn" (click)="scrollToTop()" title="Ir arriba">
+    <img src="assets/img/up.svg" alt="Subir" class="icono-up">
+  </button>
+
+
+
+</div><!-- /container -->

@@ -4,6 +4,8 @@ export interface Curso {
   descripcion: string;
   imagen: string;
   localidades: string[];
-  fecha_inicio: string;
   formulario: string;
+  fecha_inicio: string;
+  estado: 'inscripcion_abierta' | 'proximo' | 'en_curso' | 'finalizado';
+  requisitos: string;
 }

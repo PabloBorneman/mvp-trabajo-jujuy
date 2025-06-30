@@ -1,7 +1,13 @@
+/* =========================================================
+ * chat-float.ts – componente flotante del chatbot Camila
+ * ========================================================= */
+
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { v4 as uuid } from 'uuid';               // npm i uuid
 
 @Component({
   selector: 'app-chat-float',
@@ -11,12 +17,27 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./chat-float.css']
 })
 export class ChatFloatComponent {
+  /* ---------- estado de UI ---------- */
   chatVisible = false;
   userMessage = '';
-  messages: { from: 'user' | 'bot', text: string }[] = [];
   mostrarModal = true;
 
-  constructor(private http: HttpClient) {}
+  /* ---------- estado de conversación ---------- */
+  private readonly sessionId: string;
+
+  /* cada mensaje tendrá texto crudo y html seguro */
+  messages: { from: 'user' | 'bot'; text: string; html?: SafeHtml }[] = [];
+
+  constructor(
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+  ) {
+    /* genera o recupera un ID único por navegador */
+    const KEY = 'chat-session-id';
+    const stored = localStorage.getItem(KEY);
+    this.sessionId = stored ?? uuid();
+    if (!stored) localStorage.setItem(KEY, this.sessionId);
+  }
 
   toggleChat() {
     this.chatVisible = !this.chatVisible;
@@ -30,20 +51,22 @@ export class ChatFloatComponent {
     const message = this.userMessage.trim();
     if (!message) return;
 
-    /* ---------- UI: agrega el mensaje del usuario ---------- */
+    /* UI: agrega el mensaje del usuario tal cual */
     this.messages.push({ from: 'user', text: message });
 
-    /* ---------- HTTP POST al backend ---------- */
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    /* HTTP POST al backend */
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-session-id': this.sessionId          /* ← clave de sesión */
+    });
 
-    /*  🔗  Ruta relativa: el mismo dominio sirve /api/chat
-        Funciona en local (http://localhost:10000/api/chat)
-        y en Render (https://mvp-unificado.onrender.com/api/chat)                 */
     this.http
       .post<{ message: string }>('/api/chat', { message }, { headers })
       .subscribe({
         next: res => {
-          this.messages.push({ from: 'bot', text: res.message });
+          /* sanitizamos la respuesta del bot para usarla en innerHTML */
+          const html = this.sanitizer.bypassSecurityTrustHtml(res.message);
+          this.messages.push({ from: 'bot', text: res.message, html });
         },
         error: () => {
           this.messages.push({
@@ -54,5 +77,10 @@ export class ChatFloatComponent {
       });
 
     this.userMessage = '';
+  }
+
+  /* helper por si se necesita en la plantilla */
+  sanitize(raw: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(raw);
   }
 }

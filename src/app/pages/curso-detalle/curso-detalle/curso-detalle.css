@@ -1,167 +1,234 @@
-/* --- contenedor general --- */
+/* ====================  Layout General ==================== */
 .container-detalle {
   max-width: 1140px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Poppins', sans-serif;
   color: var(--color-texto);
-  font-family: 'Poppins', sans-serif;
 }
 
-/* --- breadcrumb --- */
-.bread {
-  display: inline-block;
-  margin-bottom: 1.2rem;
-  color: var(--color-primario);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* -----------------------------------------------------------------
-   Intro institucional (copiado del Home para que luzca idéntico)
------------------------------------------------------------------- */
-.chatbot-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: var(--color-primario);
-  padding: 2rem;
-  margin-bottom: 2rem;
+/* ===================  Breadcrumb  ======================== */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0c2d48;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600; /* más gordito */
   border-radius: 8px;
-  color: var(--color-blanco);
-  gap: 2rem;
+  text-decoration: none;
+  margin-bottom: 1rem; /* espacio con el banner */
+  transition: color 0.3s ease;
   font-family: 'Poppins', sans-serif;
 }
 
-.chatbot-banner-texto {
-  flex: 1;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.btn-volver:hover,
+.btn-volver:active {
+  color: var(--color-secundario); /* 🔶 solo texto naranja */
 }
 
-.chatbot-banner-texto p {
-  margin: 0.4rem 0;
-  font-size: 1.05rem;
-  line-height: 1.4;
-}
 
-.chatbot-banner-texto .resaltado {
-  color: var(--color-secundario);
-  font-weight: 600;
-}
-
-.logo {
-  width: 220px;
-  height: auto;
-}
-
-@media (max-width: 768px) {
-  .chatbot-banner {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-
-  .logo {
-    margin: 0 auto;
-  }
-}
-
-/* --------------------------------------------------------------- */
-/* --- separador --- */
+/* ===================  Separador ========================== */
 .separador {
   border: none;
   border-top: 2px solid #eee;
   margin: 2rem 0;
 }
 
-/* --- tarjeta de detalle --- */
-.detalle-card {
-  background: var(--color-blanco);
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  border-left: 5px solid var(--color-primario);
+/* ===================  Banners ============================ */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--color-primario);
+  color: #fff;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.banner__img {
+  flex: 0 0 220px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner__img img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.banner__texto {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  transition: transform .2s ease, box-shadow .2s ease;
-  font-family: 'Poppins', sans-serif;
+  align-items: center;
+  text-align: center;
 }
 
-.detalle-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-/* título */
-.detalle-card h2 {
-  margin: 0 0 .5rem;
-  font-size: 1.25rem;
+.banner__titulo {
+  font-size: 2.6rem;
   font-weight: 700;
-  color: var(--color-primario);
-  font-family: 'Poppins', sans-serif;
+  margin: 0 0 .4rem;
 }
 
-/* párrafos generales más grandes */
-.detalle-card p {
-  margin: .3rem 0;
-  font-size: 1.05rem;
-  line-height: 1.6;
+.banner__subtitulo {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
 }
 
-/* primera descripción en negrita */
-.detalle-card p:first-of-type {
+.banner__texto .resaltado {
+  color: var(--color-secundario);
   font-weight: 600;
 }
 
-/* “Inicio:” y otros strong */
-.detalle-card strong {
-  font-weight: 700;
-  color: var(--color-secundario);
+/* ===================  Detalle del curso ================== */
+.detalle-card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 10px;
+  background: #f0f4f8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-left: 5px solid var(--color-primario); /* 🔷 este es el "cosito azul" */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.sub {
-  margin: 0.8rem 0;
+
+.detalle-card h2 {
+  font-size: 2.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-primario);
 }
 
-/* etiqueta fecha */
-.badge {
-  background: var(--color-secundario);
-  color: var(--color-blanco);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  font-family: 'Poppins', sans-serif;
+.detalle-card p {
+  font-size: 1.05rem;
+  margin: 1rem 0;
 }
 
-/* chip de localidades */
+/* ===================  Estado del curso =================== */
+.estado-label {
+  position: absolute;
+  top: 0.75rem;
+  left: 0;
+  padding: 0.5rem 1.2rem;           /* 🔹 más relleno horizontal y vertical */
+  font-size: 1rem;                  /* 🔹 más grande que 0.85rem */
+  font-weight: 700;                /* 🔹 más peso visual */
+  color: #fff;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+
+
+.estado-inscripcion_abierta { background: #2e7d32; }
+.estado-en_curso          { background: #fb8c00; }
+.estado-finalizado        { background: #c62828; }
+.estado-proximo           { background: #fdd835; color: #5e5959; }
+
+/* ===================  Imagen ============================= */
+.img-detalle-curso {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+}
+
+/* ===================  Chips Localidades ================== */
 .chip {
   display: inline-block;
-  background: rgba(14,47,75,0.08);
-  color: var(--color-primario);
-  padding: 0.25rem 0.7rem;
+  background-color: #e7f1fb; /* azul claro de fondo */
+  color: var(--color-primario); /* 🔷 azul institucional */
+  padding: 5px 12px;
+  margin: 0 6px 6px 0;
   border-radius: 999px;
-  font-size: 0.85rem;
-  margin-right: 0.4rem;
-  margin-top: 0.3rem;
-  font-family: 'Poppins', sans-serif;
+  font-size: .9rem;
+  font-weight: 500;
 }
 
-/* botón inscripción */
-button {
-  align-self: start;
-  margin-top: 1rem;
-  padding: 0.55rem 1.2rem;
+
+/* ===================  Fecha con ícono ==================== */
+.fecha-inicio {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 1.2rem 0;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.fecha-inicio img {
+  width: 18px;
+  height: 18px;
+  opacity: .7;
+}
+
+/* ===================  Botones curso ====================== */
+.botones-curso {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.botones-curso button {
+  background-color: var(--color-primario);
+  color: #fff;
+  padding: .6rem 1.4rem;
+  font-size: 1rem;
   border: none;
   border-radius: 6px;
-  background: var(--color-primario);
-  color: var(--color-blanco);
   font-weight: 500;
   cursor: pointer;
   transition: background .2s ease;
   font-family: 'Poppins', sans-serif;
 }
 
-button:hover {
-  background: #093656;
+.botones-curso button:hover {
+  background-color: #093656;
+}
+
+/* ===================  Responsive ========================= */
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .banner__img {
+    flex: 0 0 180px;
+    height: 80px;
+  }
+
+  .banner__titulo {
+    font-size: 2rem;
+  }
+
+  .banner__subtitulo {
+    font-size: 1.3rem;
+  }
+
+  .botones-curso {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.resaltado-naranja {
+  color: var(--color-secundario);
+  font-weight: 600;
 }

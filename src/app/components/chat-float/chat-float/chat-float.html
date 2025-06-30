@@ -1,40 +1,44 @@
+<!-- Botón flotante que abre / cierra el chat -->
 <div class="chat-toggle-button" (click)="toggleChat()">
-  <img src="assets/img/avatar-chatbot.png" alt="Chatbot Avatar" class="chatbot-icon" />
+  <img src="assets/img/avatar-chatbot.png"
+       alt="Chatbot Avatar"
+       class="chatbot-icon" />
   Asistente Virtual de Cursos
 </div>
 
+<!-- Ventana de chat -->
 <div class="chat-box" *ngIf="chatVisible">
+  <!-- Cabecera -->
   <div class="chat-header">
     <span>Asistente Virtual de Cursos</span>
     <button (click)="toggleChat()">✖</button>
   </div>
 
+  <!-- Tarjeta de bienvenida (se oculta con “Entiendo”) -->
   <div class="chat-welcome-card" *ngIf="mostrarModal">
-  <div class="chat-welcome-header">
-    <div>
-      <h4>¡Hola! 👋</h4>
-      <p>Podés preguntarme cosas como:</p>
-      <ul>
-        <li>📅 ¿Cuándo empiezan los cursos?</li>
-        <li>📝 ¿Cómo me inscribo?</li>
-        <li>🎯 ¿Qué curso me recomiendan?</li>
-      </ul>
-      <button (click)="cerrarModal()" class="boton-entendido">Entiendo</button>
-    </div>
+    <h4>¡Hola! 👋</h4>
+    <p>Podés preguntarme cosas como:</p>
+    <ul>
+      <li>📅 ¿Cuándo empiezan los cursos?</li>
+      <li>📝 ¿Cómo me inscribo?</li>
+      <li>🎯 ¿Qué curso me recomiendan?</li>
+    </ul>
+    <button (click)="cerrarModal()" class="boton-entendido">Entiendo</button>
   </div>
-</div>
 
-
+  <!-- Historial de mensajes -->
   <div class="chat-messages">
-    <div *ngFor="let msg of messages" [class.user]="msg.from === 'user'" [class.bot]="msg.from === 'bot'">
-      {{ msg.text }}
+    <div *ngFor="let msg of messages"
+         [ngClass]="{ user: msg.from === 'user', bot: msg.from === 'bot' }"
+         [innerHTML]="msg.from === 'bot' ? msg.html : msg.text">
     </div>
   </div>
 
+  <!-- Input + botón enviar -->
   <div class="chat-input">
-    <input [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Escribí tu pregunta..." />
+    <input [(ngModel)]="userMessage"
+           (keydown.enter)="sendMessage()"
+           placeholder="Escribí tu pregunta..." />
     <button (click)="sendMessage()">Enviar</button>
   </div>
-
-
 </div>

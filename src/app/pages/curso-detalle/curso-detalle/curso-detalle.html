@@ -1,58 +1,77 @@
 <div class="container-detalle">
   <!-- Breadcrumb -->
-  <a routerLink="/" class="bread">← Volver al listado</a>
+  <a routerLink="/" class="btn-volver"> ← Volver al listado </a>
 
-  <!-- Intro institucional (idéntica al Home) -->
-  <div class="chatbot-banner">
-    <img src="assets/img/gobierno-jujuy.png" alt="Gobierno de Jujuy" class="logo" />
-
-    <div class="chatbot-banner-texto">
-      <p>
-        Impulsamos tu crecimiento profesional a través de
-        <span class="resaltado">capacitaciones gratuitas</span> y de calidad, orientadas a oficios con alta demanda en Jujuy.
-      </p>
-      <p>
-        Sumate a esta iniciativa del Gobierno Provincial para
-        <span class="resaltado">fortalecer tu empleabilidad</span> y construir un
-        <span class="resaltado">futuro laboral sólido</span>.
+  <!-- Banner institucional -->
+  <div class="banner banner--institucional">
+    <div class="banner__img">
+      <a routerLink="/">
+        <img src="assets/img/gobierno-jujuy.png" alt="Gobierno de Jujuy" />
+      </a>
+    </div>
+    <div class="banner__texto">
+      <h2 class="banner__titulo">
+        Formamos <span class="resaltado">trabajo</span>, construimos
+        <span class="resaltado">futuro</span>
+      </h2>
+      <p class="banner__subtitulo">
+        Te acompañamos hacia el
+        <span class="resaltado">futuro</span> que
+        <span class="resaltado">Jujuy</span> necesita.
       </p>
     </div>
   </div>
 
   <hr class="separador" />
 
-  <!-- Card de detalle -->
+  <!-- Detalle del curso -->
+  <!-- Detalle del curso -->
   <div *ngIf="curso" class="detalle-card">
+    <!-- Estado del curso -->
+    <div class="estado-label estado-{{ curso.estado }}">
+      {{ getEstadoTexto(curso.estado) }}
+    </div>
+
+    <!-- Título del curso -->
     <h2>{{ curso.titulo }}</h2>
 
     <p>{{ curso.descripcion }}</p>
 
     <p class="sub">
-      <strong>Localidades:</strong>
+      <strong class="resaltado-naranja">Localidades:</strong>
       <span class="chip" *ngFor="let loc of curso.localidades">
         {{ loc }}
       </span>
     </p>
 
     <p class="sub">
-      <strong>Inicio:</strong>
-      <span class="badge">{{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+      <strong class="resaltado-naranja">Requisitos:</strong>
+      {{ curso.requisitos || 'No se especificaron requisitos para este curso.'
+      }}
     </p>
 
-    <button (click)="openForm(curso.formulario)">
-      Inscribirme
-    </button>
+    <!-- Fecha con ícono -->
+    <div class="fecha-inicio">
+      <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
+      <span>Comienza: {{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+    </div>
 
-    <!-- Mapa insertado -->
-    <div style="margin-top: 20px;">
+    <!-- Botón de inscripción -->
+    <div class="botones-curso" style="margin: 20px 0">
+      <button (click)="openForm(curso.formulario)">Inscribirme</button>
+    </div>
+
+    <!-- Mapa -->
+    <div style="margin-top: 20px">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.580024606111!2d-65.29925252510829!3d-24.186457384853686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941b0f5ca5b6aaab%3A0xd4085ece0ee6f2f4!2sMinisterio%20de%20Trabajo%20y%20Empleo%20de%20Jujuy!5e0!3m2!1ses-419!2sar!4v1748997985343!5m2!1ses-419!2sar"
         width="100%"
         height="450"
-        style="border:0; border-radius: 8px;"
+        style="border: 0; border-radius: 8px"
         allowfullscreen
         loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
+        referrerpolicy="no-referrer-when-downgrade"
+      >
       </iframe>
     </div>
   </div>
