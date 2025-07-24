@@ -1,3 +1,7 @@
+/* ==========================================================
+   curso-detalle.component.css
+   ========================================================== */
+
 /* ====================  Layout General ==================== */
 .container-detalle {
   max-width: 1140px;
@@ -16,19 +20,15 @@
   color: #fff;
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
-  font-weight: 600; /* más gordito */
+  font-weight: 600;
   border-radius: 8px;
   text-decoration: none;
-  margin-bottom: 1rem; /* espacio con el banner */
+  margin-bottom: 1rem;
   transition: color 0.3s ease;
   font-family: 'Poppins', sans-serif;
 }
-
 .btn-volver:hover,
-.btn-volver:active {
-  color: var(--color-secundario); /* 🔶 solo texto naranja */
-}
-
+.btn-volver:active { color: var(--color-secundario); }
 
 /* ===================  Separador ========================== */
 .separador {
@@ -37,7 +37,7 @@
   margin: 2rem 0;
 }
 
-/* ===================  Banners ============================ */
+/* ===================  Banner ============================= */
 .banner {
   display: flex;
   align-items: center;
@@ -51,184 +51,117 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.banner__img {
-  flex: 0 0 220px;
-  height: 100px;
+/* ► Logo grande */
+.banner__img{
+  flex: 0 0 340px;        /* 🔺 +40 px de ancho */
+  height: 160px;          /* 🔺 +20 px de alto  */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.banner__img img {
+.banner__img img{
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.banner__texto {
+/* ► Texto */
+.banner__texto{
   flex: 1;
+  min-width: 0;           /* permite que se encoja si hace falta */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-
-.banner__titulo {
-  font-size: 2.6rem;
+.banner__titulo{
+  font-size: clamp(1.6rem, 1.5vw + 1rem, 2.6rem);
   font-weight: 700;
   margin: 0 0 .4rem;
+  white-space: nowrap;
+  letter-spacing: -0.015em;
 }
-
-.banner__subtitulo {
+.banner__subtitulo{
   font-size: 1.5rem;
   font-weight: 500;
   margin: 0;
   line-height: 1.4;
 }
-
-.banner__texto .resaltado {
-  color: var(--color-secundario);
-  font-weight: 600;
-}
+.banner__texto .resaltado{ color: var(--color-secundario); font-weight: 600; }
 
 /* ===================  Detalle del curso ================== */
-.detalle-card {
+.detalle-card{
   position: relative;
   padding: 2rem;
   border-radius: 10px;
   background: #f0f4f8;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-left: 5px solid var(--color-primario); /* 🔷 este es el "cosito azul" */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0,0,0,.08);
+  border-left: 5px solid var(--color-primario);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
-
-
-.detalle-card h2 {
-  font-size: 2.6rem;
-  margin-bottom: 1rem;
-  color: var(--color-primario);
-}
-
-.detalle-card p {
-  font-size: 1.05rem;
-  margin: 1rem 0;
-}
+.detalle-card h2{ font-size: 2.6rem; margin-bottom: 1rem; color: var(--color-primario); }
+.detalle-card p{ font-size: 1.05rem; margin: 1rem 0; }
 
 /* ===================  Estado del curso =================== */
-.estado-label {
+.estado-label{
   position: absolute;
-  top: 0.75rem;
-  left: 0;
-  padding: 0.5rem 1.2rem;           /* 🔹 más relleno horizontal y vertical */
-  font-size: 1rem;                  /* 🔹 más grande que 0.85rem */
-  font-weight: 700;                /* 🔹 más peso visual */
-  color: #fff;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  z-index: 2;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  top: .75rem; left: 0;
+  padding: .5rem 1.2rem;
+  font-size: 1rem; font-weight: 700; color:#fff;
+  border-top-right-radius:4px; border-bottom-right-radius:4px;
+  text-transform: uppercase; letter-spacing:.5px; z-index:2;
 }
-
-
-
-
-.estado-inscripcion_abierta { background: #2e7d32; }
-.estado-en_curso          { background: #fb8c00; }
-.estado-finalizado        { background: #c62828; }
-.estado-proximo           { background: #fdd835; color: #5e5959; }
+.estado-inscripcion_abierta{ background:#2e7d32; }
+.estado-en_curso          { background:#fb8c00; }
+.estado-finalizado        { background:#c62828; }
+.estado-proximo           { background:#fdd835; color:#5e5959; }
 
 /* ===================  Imagen ============================= */
-.img-detalle-curso {
-  width: 100%;
-  max-height: 350px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin: 1.5rem 0;
+.img-detalle-curso{
+  width:100%; max-height:350px; object-fit:cover;
+  border-radius:12px; margin:1.5rem 0;
 }
 
 /* ===================  Chips Localidades ================== */
-.chip {
-  display: inline-block;
-  background-color: #e7f1fb; /* azul claro de fondo */
-  color: var(--color-primario); /* 🔷 azul institucional */
-  padding: 5px 12px;
-  margin: 0 6px 6px 0;
-  border-radius: 999px;
-  font-size: .9rem;
-  font-weight: 500;
+.chip{
+  display:inline-block; background:#e7f1fb; color:var(--color-primario);
+  padding:5px 12px; margin:0 6px 6px 0;
+  border-radius:999px; font-size:.9rem; font-weight:500;
 }
-
 
 /* ===================  Fecha con ícono ==================== */
-.fecha-inicio {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin: 1.2rem 0;
-  font-size: .95rem;
-  font-weight: 500;
-  color: #444;
+.fecha-inicio{
+  display:flex; align-items:center; gap:.6rem;
+  margin:1.2rem 0; font-size:.95rem; font-weight:500; color:#444;
 }
-
-.fecha-inicio img {
-  width: 18px;
-  height: 18px;
-  opacity: .7;
-}
+.fecha-inicio img{ width:18px; height:18px; opacity:.7; }
 
 /* ===================  Botones curso ====================== */
-.botones-curso {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
+.botones-curso{
+  display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.5rem;
 }
-
-.botones-curso button {
-  background-color: var(--color-primario);
-  color: #fff;
-  padding: .6rem 1.4rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background .2s ease;
-  font-family: 'Poppins', sans-serif;
+.botones-curso button{
+  background:var(--color-primario); color:#fff;
+  padding:.6rem 1.4rem; font-size:1rem;
+  border:none; border-radius:6px; font-weight:500;
+  cursor:pointer; transition:background .2s ease; font-family:'Poppins',sans-serif;
 }
-
-.botones-curso button:hover {
-  background-color: #093656;
-}
+.botones-curso button:hover{ background:#093656; }
 
 /* ===================  Responsive ========================= */
-@media (max-width: 768px) {
-  .banner {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .banner__img {
-    flex: 0 0 180px;
-    height: 80px;
-  }
-
-  .banner__titulo {
-    font-size: 2rem;
-  }
-
-  .banner__subtitulo {
-    font-size: 1.3rem;
-  }
-
-  .botones-curso {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+@media (max-width: 768px){
+  .banner{ flex-direction:column; text-align:center; }
+  .banner__img{ flex:0 0 200px; height:90px; }  /* logo sigue grandecito en móvil */
+  .banner__titulo{ font-size:2rem; white-space:normal; letter-spacing:0; }
+  .banner__subtitulo{ font-size:1.3rem; }
+  .botones-curso{ flex-direction:column; align-items:flex-start; }
+  .banner--institucional{ display:none !important; }
+  .btn-volver{ margin-bottom:.5rem; }
 }
 
-.resaltado-naranja {
-  color: var(--color-secundario);
-  font-weight: 600;
+/* ► pantallas muy anchas */
+@media (min-width: 1440px){
+  .banner__img{ flex-basis:380px; height:180px; }  /* 🔺 aún más para 2K+ */
 }
+
+.resaltado-naranja{ color: var(--color-secundario); font-weight: 600; }

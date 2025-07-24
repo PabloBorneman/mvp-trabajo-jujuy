@@ -32,7 +32,7 @@
 }
 
 .logo-gobierno {
-  width: 160px;
+  width: 280px;      /* ⬅️ antes era 160px */
   margin: 1rem auto 0;
   display: block;
 }

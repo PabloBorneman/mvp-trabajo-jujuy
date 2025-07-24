@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CursoService } from '../../../services/curso';
 import { Curso } from '../../../models/curso.model';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-curso-detalle',
@@ -17,10 +18,12 @@ export class CursoDetalle implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private cursoService: CursoService
+    private cursoService: CursoService,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.cursoService.getCurso(id).subscribe(c => (this.curso = c));
   }

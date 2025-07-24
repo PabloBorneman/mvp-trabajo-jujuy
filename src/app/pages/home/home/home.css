@@ -19,6 +19,13 @@ body{
 }
 .logo{ width:220px; height:auto; }
 
+.logo-academia {
+  width: 300px;        /* antes 140px */
+  max-height: 300px;   /* más alto permitido */
+  height: auto;
+}
+
+
 .descripcion{ flex:1; font-size:1.1rem; line-height:1.6; }
 .descripcion .resaltado{ color:var(--color-secundario); font-weight:600; }
 
@@ -148,10 +155,12 @@ body{
 }
 
 /* Columna imagen */
-.banner__img{
-  flex:0 0 220px;          /* fija ancho */
-  height:100px;            /* 🔸 fija alto → banners idénticos */
-  display:flex; justify-content:center; align-items:center;
+.banner__img {
+  flex: 0 0 240px;   /* ancho del contenedor */
+  height: 120px;     /* alto del contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Imagen contenida sin deformar */
@@ -219,16 +228,20 @@ body{
 /* ==========================  Boton para arriba=============== */
 /* ===================================================================== */
 
-.scroll-top-btn {
+.scroll-top-btn{
   position: fixed;
   bottom: 20px;
-  left: calc((100vw - 1140px) / 2 - 79px); /* 🧠 centrado entre borde y tarjetas */
+
+  /* ► lo ubicamos con LEFT, para centrar el hueco izquierdo */
+  left: 20px;    /* valor de respaldo, JS lo sobre-escribe */
+  right: auto;   /* anulamos cualquier right heredado      */
+
   width: 48px;
   height: 48px;
   background-color: var(--color-primario);
   border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
   cursor: pointer;
   z-index: 999;
 
@@ -236,7 +249,7 @@ body{
   align-items: center;
   justify-content: center;
 
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color .3s ease-in-out;
 }
 
 .scroll-top-btn:hover {
