@@ -3,12 +3,16 @@
   color: var(--color-blanco);
   font-family: 'Segoe UI', sans-serif;
   padding: 0;
+  min-height: 280px;
 }
 
 .footer-montanas img {
   width: 100%;
+  height: auto;
   display: block;
+  background-color: #fff;
   margin-bottom: -4px;
+  aspect-ratio: 12 / 1;
 }
 
 .footer-content {
@@ -18,7 +22,7 @@
   padding: 1.5rem 1rem 1rem;
   flex-wrap: wrap;
   text-align: center;
-  gap: 2rem;
+  gap: 1rem; /* 🔧 antes 2rem, menos espacio en pantallas pequeñas */
 }
 
 .footer-col {
@@ -32,7 +36,8 @@
 }
 
 .logo-gobierno {
-  width: 280px;      /* ⬅️ antes era 160px */
+  width: 280px;
+  height: auto;
   margin: 1rem auto 0;
   display: block;
 }
@@ -60,4 +65,24 @@
   padding: 0.7rem;
   text-align: center;
   font-size: 0.85rem;
+}
+
+/* 🔧 RESPONSIVE ADICIONAL */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .logo-gobierno {
+    width: 200px;
+    margin-top: 0.5rem;
+  }
+
+  .footer-col {
+    min-width: auto;
+    max-width: 100%;
+  }
 }

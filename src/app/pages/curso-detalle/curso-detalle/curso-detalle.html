@@ -1,11 +1,12 @@
+<!-- ───────────────────────── curso-detalle.html (completo, fix strictTemplates + fecha inicio/fin) ───────────────────────── -->
 <div class="container-detalle">
   <!-- Breadcrumb -->
-  <a routerLink="/" class="btn-volver"> ← Volver al listado </a>
+  <a routerLink="/" class="btn-volver" aria-label="Volver al listado"> ← Volver al listado </a>
 
   <!-- Banner institucional -->
-  <div class="banner banner--institucional">
+  <div class="banner banner--institucional" aria-label="Gobierno de Jujuy">
     <div class="banner__img">
-      <a routerLink="/">
+      <a routerLink="/" aria-label="Ir al inicio">
         <img src="assets/img/gobierno-jujuy.png" alt="Gobierno de Jujuy" />
       </a>
     </div>
@@ -15,8 +16,7 @@
         <span class="resaltado">futuro</span>
       </h2>
       <p class="banner__subtitulo">
-        Te acompañamos hacia el
-        <span class="resaltado">futuro</span> que
+        Te acompañamos hacia el <span class="resaltado">futuro</span> que
         <span class="resaltado">Jujuy</span> necesita.
       </p>
     </div>
@@ -25,54 +25,151 @@
   <hr class="separador" />
 
   <!-- Detalle del curso -->
-  <!-- Detalle del curso -->
-  <div *ngIf="curso" class="detalle-card">
-    <!-- Estado del curso -->
-    <div class="estado-label estado-{{ curso.estado }}">
-      {{ getEstadoTexto(curso.estado) }}
+  <div *ngIf="curso as c" class="detalle-card">
+    <!-- Estado -->
+    <div class="estado-label" [ngClass]="getEstadoClase(c.estado)" aria-live="polite">
+      {{ getEstadoTexto(c.estado) }}
     </div>
 
-    <!-- Título del curso -->
-    <h2>{{ curso.titulo }}</h2>
+    <!-- Título -->
+    <h1 class="detalle-titulo">{{ c.titulo }}</h1>
 
-    <p>{{ curso.descripcion }}</p>
+    <!-- Descripción principal -->
+    <p class="detalle-descripcion">{{ c.descripcion }}</p>
 
-    <p class="sub">
-      <strong class="resaltado-naranja">Localidades:</strong>
-      <span class="chip" *ngFor="let loc of curso.localidades">
-        {{ loc }}
-      </span>
-    </p>
-
-    <p class="sub">
-      <strong class="resaltado-naranja">Requisitos:</strong>
-      {{ curso.requisitos || 'No se especificaron requisitos para este curso.'
-      }}
-    </p>
-
-    <!-- Fecha con ícono -->
-    <div class="fecha-inicio">
-      <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
-      <span>Comienza: {{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+    <!-- ACTIVIDADES (2025) -->
+    <div class="detalle-bloque" *ngIf="c.actividades">
+      <h3>¿Qué actividades se realizarán?</h3>
+      <p>{{ c.actividades }}</p>
     </div>
 
-    <!-- Botón de inscripción -->
-    <div class="botones-curso" style="margin: 20px 0">
-      <button (click)="openForm(curso.formulario)">Inscribirme</button>
+    <!-- RESUMEN DE CURSADA -->
+    <div class="detalle-grid">
+      <div class="detalle-item" *ngIf="c.duracion_total">
+        <strong class="resaltado-naranja">Duración total:</strong>
+        <span>{{ c.duracion_total }}</span>
+      </div>
+
+      <div class="detalle-item" *ngIf="c.frecuencia_semanal">
+        <strong class="resaltado-naranja">Frecuencia semanal:</strong>
+        <span>
+          {{
+            c.frecuencia_semanal === 'otro'
+              ? 'Otro'
+              : (c.frecuencia_semanal + ' clase(s) por semana')
+          }}
+        </span>
+      </div>
+
+      <!-- ✅ FIX strictTemplates: capturamos el array en una variable local -->
+      <div class="detalle-item" *ngIf="c.duracion_clase_horas as horas">
+        <ng-container *ngIf="horas.length > 0">
+          <strong class="resaltado-naranja">Duración por clase:</strong>
+          <span>
+            <ng-container *ngIf="horas.length === 1; else rangoHoras">
+              {{ horas[0] }} h
+            </ng-container>
+            <ng-template #rangoHoras>
+              {{ horas.join('–') }} h
+            </ng-template>
+          </span>
+        </ng-container>
+      </div>
+
+      <div class="detalle-item fecha-inicio" *ngIf="c.fecha_inicio">
+        <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
+        <span>Comienza: {{ c.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+      </div>
+
+      <div class="detalle-item fecha-fin" *ngIf="c.fecha_fin">
+        <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
+        <span>Finaliza: {{ c.fecha_fin | date:'dd/MM/yyyy' }}</span>
+      </div>
+
+      <div class="detalle-item" *ngIf="c.dias_horarios as dias" >
+        <ng-container *ngIf="dias.length > 0">
+          <strong class="resaltado-naranja">Días y horarios:</strong>
+          <ul class="lista-detalle compacta">
+            <li *ngFor="let d of dias">{{ d }}</li>
+          </ul>
+        </ng-container>
+      </div>
     </div>
 
-    <!-- Mapa -->
-    <div style="margin-top: 20px">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.580024606111!2d-65.29925252510829!3d-24.186457384853686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941b0f5ca5b6aaab%3A0xd4085ece0ee6f2f4!2sMinisterio%20de%20Trabajo%20y%20Empleo%20de%20Jujuy!5e0!3m2!1ses-419!2sar!4v1748997985343!5m2!1ses-419!2sar"
-        width="100%"
-        height="450"
-        style="border: 0; border-radius: 8px"
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      >
-      </iframe>
+    <!-- UBICACIÓN -->
+    <div class="detalle-bloque" *ngIf="c.localidades?.length">
+      <h3>Sedes / Localidades</h3>
+
+      <!-- Lista simple de localidades -->
+      <div *ngIf="!c.direcciones?.length">
+        <span class="chips">
+          <span class="chip" *ngFor="let loc of c.localidades">{{ loc }}</span>
+        </span>
+      </div>
+
+      <!-- Localidades + direcciones (si se proveen) -->
+      <ul class="lista-detalle" *ngIf="c.direcciones?.length">
+        <li *ngFor="let loc of c.localidades; index as i">
+          <strong>{{ loc }}:</strong>
+          <span>{{ c.direcciones?.[i] || 'Dirección a confirmar' }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- REQUISITOS -->
+    <div class="detalle-bloque">
+      <h3>Requisitos</h3>
+
+      <!-- 2025 (flags + otros) -->
+      <div *ngIf="c.origen === '2025'; else req2024">
+        <div class="chips">
+          <span class="chip ok" *ngIf="c.req_mayor_18">Mayor de 18 años</span>
+          <span class="chip ok" *ngIf="c.req_carnet_conducir">Carnet de conducir</span>
+          <span class="chip ok" *ngIf="c.req_primaria_completa">Primaria completa</span>
+          <span class="chip ok" *ngIf="c.req_secundaria_completa">Secundaria completa</span>
+        </div>
+        <ul class="lista-detalle" *ngIf="c.req_otros as otros">
+          <li *ngFor="let ro of otros">{{ ro }}</li>
+        </ul>
+        <p *ngIf="!c.req_mayor_18 && !c.req_carnet_conducir && !c.req_primaria_completa && !c.req_secundaria_completa && !(c.req_otros?.length)">
+          No se especificaron requisitos excluyentes.
+        </p>
+      </div>
+
+      <!-- 2024 (texto plano) -->
+      <ng-template #req2024>
+        <p>{{ c.requisitos || 'No se especificaron requisitos para este curso.' }}</p>
+      </ng-template>
+    </div>
+
+    <!-- MATERIALES (2025) -->
+    <div class="detalle-bloque" *ngIf="c.origen === '2025' && (c.materiales_aporta_estudiante?.length || c.materiales_entrega_curso?.length)">
+      <h3>Materiales</h3>
+
+      <div class="detalle-grid">
+        <div class="detalle-item" *ngIf="c.materiales_aporta_estudiante as mae">
+          <ng-container *ngIf="mae.length > 0">
+            <strong class="resaltado-naranja">Aporta el/la estudiante:</strong>
+            <ul class="lista-detalle compacta">
+              <li *ngFor="let me of mae">{{ me }}</li>
+            </ul>
+          </ng-container>
+        </div>
+
+        <div class="detalle-item" *ngIf="c.materiales_entrega_curso as mec">
+          <ng-container *ngIf="mec.length > 0">
+            <strong class="resaltado-naranja">Entrega el curso:</strong>
+            <ul class="lista-detalle compacta">
+              <li *ngFor="let mc of mec">{{ mc }}</li>
+            </ul>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="botones-curso">
+      <button type="button" (click)="openForm(c.formulario)">Inscribirme</button>
     </div>
   </div>
 </div>

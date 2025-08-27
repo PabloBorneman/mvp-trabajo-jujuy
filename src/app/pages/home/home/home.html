@@ -2,45 +2,66 @@
 <div *ngIf="showIntroModal">
   <div class="intro-backdrop"></div>
 
-  <div class="intro-modal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div
+    class="intro-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="introTitle"
+  >
     <button class="intro-close" (click)="closeIntroModal()" aria-label="Cerrar">×</button>
 
-    <img src="assets/img/ella.png"
-         alt="Avatar asistente virtual Camila"
-         class="intro-avatar"
-         loading="eager"
-         fetchpriority="high">
+    <img
+      src="assets/img/ella.png"
+      alt="Avatar asistente virtual Camila"
+      class="intro-avatar"
+      loading="eager"
+    />
 
     <div class="intro-texto">
       <h2 id="introTitle">¡Hola! Soy <span class="resaltado">Camila</span></h2>
-      <h2 class="sublinea">Tu asistente virtual</h2>
-      <h2 class="sublinea">Disponible <span class="resaltado">las 24 horas</span></h2>
+      <h2 class="sublinea">
+        Asistente virtual <span class="resaltado">24/7</span>
+      </h2>
 
-      <p>Buscá mi <span class="resaltado">Casco Amarillo</span> abajo a la derecha y:</p>
+      <!-- Versión DESKTOP/TABLET (igual a la original) -->
+      <div class="intro-copy">
+        <p>Buscá mi <span class="resaltado">Casco Amarillo</span> abajo a la derecha.</p>
+        <p>
+          Preguntame por <span class="resaltado">fechas</span>,
+          <span class="resaltado">requisitos</span> e
+          <span class="resaltado">inscripción</span>.
+        </p>
+        <p>Te recomiendo el <span class="resaltado">curso ideal</span> según tu perfil.</p>
+      </div>
 
-      <p>Preguntame cualquier cosa relacionada a los
-         <span class="resaltado">Cursos</span>:
-         <span class="resaltado">fechas</span>,
-         <span class="resaltado">requisitos</span>,
-         <span class="resaltado">inscripción</span> y más.</p>
-
-      <p>Estoy acá para ayudarte a elegir
-         <span class="resaltado">el curso perfecto</span> para vos.</p>
+      <!-- Versión MÓVIL (texto compacto) -->
+      <div class="intro-compact">
+        <p>Buscá mi <span class="resaltado">Casco Amarillo</span></p>
+        <p><span class="resaltado">Preguntame</span> y</p>
+        <p>¡Aclarare todas tus <span class="resaltado">dudas</span>!</p>
+      </div>
 
       <button class="intro-btn" (click)="closeIntroModal()">Entiendo</button>
     </div>
   </div>
 </div>
+
+
 <!-- ────────────────────────────────────────────────────────── -->
 
 <div class="container">
-
-  <!-- ░░ Banner institucional ░░ -->
   <div class="banner banner--institucional">
+    <!-- Logo izquierda (Academia) -->
     <div class="banner__img">
-      <img src="assets/img/academia.png" alt="Academia de Oficios" class="logo-academia">
+      <img
+        src="assets/img/academia.png"
+        alt="Academia de Oficios"
+        class="logo-academia"
+        loading="eager"
+      />
     </div>
 
+    <!-- Texto -->
     <div class="banner__texto">
       <h2 class="banner__titulo">Tu futuro empieza hoy</h2>
       <p class="banner__subtitulo">
@@ -48,37 +69,78 @@
         con <span class="resaltado">salida laboral</span> en Jujuy
       </p>
     </div>
+
+    <!-- Logo derecha (Gobierno) -->
+    <div class="banner__img">
+      <img
+        src="assets/img/gobierno-jujuy-abajo.png"
+        alt="Gobierno de Jujuy"
+        class="logo-gobierno-banner"
+        loading="eager"
+      />
+    </div>
   </div>
+
+  <!-- 🔽 Slider de cursos próximos -->
+  <app-slider></app-slider>
 
   <!-- ░░ Banner recordatorio Chatbot ░░ -->
   <div class="banner banner--chatbot">
-
     <div class="banner__texto">
       <h2 class="banner__titulo">¿Tenés dudas sobre los cursos?</h2>
       <p class="banner__subtitulo">
-        Hacé clic en el <span class="resaltado">casco amarillo</span> abajo a la derecha.
+        Hacé clic en el <span class="resaltado">casco amarillo</span> abajo a la
+        derecha.
       </p>
     </div>
 
     <div class="banner__img">
-      <img src="assets/img/avatar-chatbot.png"
-           alt="Avatar Chatbot Gorrito">
+      <img
+        src="assets/img/avatar-chatbot.png"
+        alt="Avatar Chatbot Gorrito"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
-
   </div>
-
-  <hr class="separador">
 
   <!-- Título y filtro -->
   <div class="header-cursos">
     <h2 class="titulo-cursos">Nuestros Cursos</h2>
 
-    <div class="filtro-con-mensaje">
-      <label class="label-localidad" for="filtro-localidad">Seleccioná tu localidad</label>
+    <!-- 🔹 Selector de año -->
+    <div class="year-switch" role="tablist" aria-label="Año de cursos">
+      <button
+        class="year-btn"
+        role="tab"
+        [attr.aria-selected]="selectedYear === '2024'"
+        [class.is-active]="selectedYear === '2024'"
+        (click)="setYear('2024')"
+      >
+        2024
+      </button>
 
-      <select id="filtro-localidad"
-              [(ngModel)]="localidadSeleccionada"
-              class="filtro-select">
+      <button
+        class="year-btn"
+        role="tab"
+        [attr.aria-selected]="selectedYear === '2025'"
+        [class.is-active]="selectedYear === '2025'"
+        (click)="setYear('2025')"
+      >
+        2025
+      </button>
+    </div>
+
+    <div class="filtro-con-mensaje">
+      <label class="label-localidad" for="filtro-localidad"
+        >Seleccioná tu localidad</label
+      >
+
+      <select
+        id="filtro-localidad"
+        [(ngModel)]="localidadSeleccionada"
+        class="filtro-select"
+      >
         <option value="">Todas las localidades</option>
         <option *ngFor="let loc of localidadesUnicas" [value]="loc">
           {{ loc }}
@@ -89,14 +151,13 @@
 
   <!-- Listado de cursos -->
   <div class="cursos">
-    <div class="curso-card"
-         *ngFor="let curso of cursosFiltrados()"
-         (mouseleave)="resetScroll($event)">
-
+    <div
+      class="curso-card"
+      *ngFor="let curso of cursosFiltrados(); trackBy: trackById"
+      (mouseleave)="resetScroll($event)"
+    >
       <div class="curso-contenido">
-
-        <div class="estado-label"
-             [ngClass]="getEstadoClase(curso.estado)">
+        <div class="estado-label" [ngClass]="getEstadoClase(curso.estado)">
           {{ getEstadoTexto(curso.estado) }}
         </div>
 
@@ -105,30 +166,41 @@
         <p class="curso-descripcion" (scroll)="onScroll($event)">
           {{ curso.descripcion }}
 
-          <img class="overlay-img"
-               [src]="curso.imagen || 'assets/img/default-curso.png'"
-               (error)="onImgError($event)"
-               alt="Imagen de {{ curso.titulo }}">
+          <img
+            *ngIf="curso.imagen"
+            class="overlay-img"
+            [src]="curso.imagen"
+            loading="lazy"
+            decoding="async"
+            alt="Imagen de {{ curso.titulo }}"
+          />
         </p>
 
         <div class="botones-curso">
           <button (click)="openForm(curso.formulario)">Inscribirme</button>
-          <button class="boton-info" [routerLink]="['/curso', curso.id]">🔎 Más Info</button>
+          <button
+            class="boton-info"
+            [routerLink]="['/curso', curso.id]"
+            [queryParams]="{ y: curso.origen }"
+          >
+            🔎 Más Info
+          </button>
         </div>
 
         <div class="fecha-inicio">
-          <img src="assets/img/icono-calendario.png" alt="Ícono calendario">
+          <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
           <span>Comienza: {{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
         </div>
+      </div>
+    </div>
+  </div>
 
-      </div><!-- /curso-contenido -->
-    </div><!-- /curso-card -->
-  </div><!-- /cursos -->
-
-  <button id="scrollTopBtn" class="scroll-top-btn" (click)="scrollToTop()" title="Ir arriba">
-    <img src="assets/img/up.svg" alt="Subir" class="icono-up">
+  <button
+    id="scrollTopBtn"
+    class="scroll-top-btn"
+    (click)="scrollToTop()"
+    title="Ir arriba"
+  >
+    <img src="assets/img/up.svg" alt="Subir" class="icono-up" />
   </button>
-
-
-
-</div><!-- /container -->
+</div>

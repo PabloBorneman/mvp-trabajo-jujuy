@@ -1,0 +1,63 @@
+<!-- ░░ Slider Banner con Empleo PI + Cursos Próximos alternados ░░ -->
+<div class="slider-banner" *ngIf="cursosProximos.length">
+  <div
+    class="slide-content"
+    (mouseenter)="stopAutoSlide()"
+    (mouseleave)="startAutoSlide()"
+  >
+    <button class="nav prev" (click)="prev()" aria-label="Anterior">‹</button>
+
+    <ng-container *ngFor="let c of cursosProximos; let i = index">
+      <div [ngClass]="getSlideClass(i)" class="slide">
+
+        <!-- Slide: Portal de Empleo PI -->
+        <ng-container *ngIf="c.tipo === 'pi'">
+          <!-- Escritorio: imagen clickeable a Portal -->
+          <a
+            *ngIf="!isMobile"
+            href="https://empleopi.jujuy.gob.ar"
+            target="_blank"
+            rel="noopener"
+            class="slide-img slide-img--portal"
+            [style.background-image]="'url(' + c.imagen + ')'"
+            aria-label="Ir al Portal de Empleo"
+          ></a>
+
+          <!-- Móvil: fondo institucional + mensaje y botón -->
+          <div *ngIf="isMobile" class="slide-img slide-img--institucional">
+            <div class="portal-mobile-content">
+              <h2 class="portal-mobile-msg">¿Ya terminaste tu curso?</h2>
+              <a
+                class="btn-portal"
+                href="https://empleopi.jujuy.gob.ar"
+                target="_blank"
+                rel="noopener"
+              >
+                🌐 Ingresar al Portal
+              </a>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Slide: Curso próximo -->
+        <ng-container *ngIf="c.tipo === 'curso'">
+          <div
+            class="slide-img"
+            [style.background-image]="'url(' + c.imagen + ')'"
+          ></div>
+          <div class="estado-label estado-proximo">Disponible próximamente</div>
+          <div class="slide-texto slide-curso">
+            <h2 class="titulo-curso">{{ c.titulo }}</h2>
+            <p class="descripcion-curso">{{ c.descripcion }}</p>
+            <a class="btn-banner" [routerLink]="['/curso', c.id]">
+              🔎 Más Info
+            </a>
+          </div>
+        </ng-container>
+
+      </div>
+    </ng-container>
+
+    <button class="nav next" (click)="next()" aria-label="Siguiente">›</button>
+  </div>
+</div>
