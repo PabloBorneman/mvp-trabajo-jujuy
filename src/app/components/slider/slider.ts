@@ -4,14 +4,23 @@ import { CommonModule } from '@angular/common';
 import { CursoService } from '../../services/curso';
 import { Curso2025 } from '../../models/curso-2025.model';
 
-type SlidePI = { tipo: 'pi'; imagen: string };
+type Estado = 'inscripcion_abierta' | 'proximo' | 'en_curso' | 'finalizado';
+
+type SlidePI = {
+  tipo: 'pi';
+  imagenDesktop: string;
+  imagenMobile: string;
+  imagen: string;     // activa según viewport
+  link: boolean;      // ⬅ solo true para el PRIMER portal
+};
+
 type SlideCurso = {
   tipo: 'curso';
   id: number;
   titulo: string;
   descripcion: string;
   imagen?: string;
-  estado: 'inscripcion_abierta' | 'proximo' | 'en_curso' | 'finalizado';
+  estado: Estado;
   fecha_inicio: string;
 };
 
@@ -20,7 +29,7 @@ type SlideCurso = {
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './slider.html',
-  styleUrls: ['./slider.css']
+  styleUrls: ['./slider.css'],
 })
 export class Slider implements OnInit, OnDestroy {
   cursosProximos: Array<SlidePI | SlideCurso> = [];
@@ -29,60 +38,44 @@ export class Slider implements OnInit, OnDestroy {
 
   // UI responsive
   isMobile = false;
-  private onResize = () => this.checkScreenSize();
 
-  private portalImgs = [
-    'assets/img/portal/portal_1.webp'
+  private portalImgsDesktop = [
+    'assets/img/portal/portal_1.webp',
+    'assets/img/portal/portal_2.webp',
+    'assets/img/portal/portal_3.webp',
   ];
+
+  private portalImgsMobile = [
+    'assets/img/portal/portal_celu_1.webp',
+    'assets/img/portal/portal_celu_2.webp',
+    'assets/img/portal/portal_celu_3.webp',
+  ];
+
+  private onResize = () => {
+    const prev = this.isMobile;
+    this.checkScreenSize();
+    if (prev !== this.isMobile) {
+      this.updatePortalImagesForViewport();
+    }
+  };
 
   constructor(private cursoService: CursoService) {}
 
   ngOnInit(): void {
-    // detectar tamaño al iniciar + escuchar cambios
     this.checkScreenSize();
     window.addEventListener('resize', this.onResize);
 
     this.cursoService.getCursos2025().subscribe({
       next: (cursos: Curso2025[]) => {
         const proximosOrdenados = cursos
-          .filter(c => c.estado === 'proximo')
+          .filter((c) => c.estado === 'proximo')
           .sort((a, b) => this.safeDate(a.fecha_inicio) - this.safeDate(b.fecha_inicio));
 
-        const slides: Array<SlidePI | SlideCurso> = [];
+        this.cursosProximos = this.buildSlides(proximosOrdenados);
 
-        if (proximosOrdenados.length === 0) {
-          // Si no hay cursos “próximos”, mostrar solo las del portal
-          this.portalImgs.forEach(img => slides.push({ tipo: 'pi', imagen: img }));
-        } else {
-          // Intercalar asegurando mostrar todas las imágenes del portal aunque haya 1 curso
-          const maxLen = Math.max(proximosOrdenados.length, this.portalImgs.length);
-          for (let i = 0; i < maxLen; i++) {
-            // Curso (cíclico)
-            const c = proximosOrdenados[i % proximosOrdenados.length];
-            slides.push({
-              tipo: 'curso',
-              id: c.id,
-              titulo: c.titulo,
-              descripcion: c.descripcion_breve ?? '',
-              imagen: c.imagen,
-              estado: c.estado,
-              fecha_inicio: c.fecha_inicio ?? ''
-            });
-
-            // Portal (cíclico)
-            slides.push({
-              tipo: 'pi',
-              imagen: this.portalImgs[i % this.portalImgs.length]
-            });
-          }
-        }
-
-        this.cursosProximos = slides;
         if (this.cursosProximos.length) this.startAutoSlide();
       },
-      error: err => {
-        console.error('Error cargando cursos 2025:', err);
-      }
+      error: (err) => console.error('Error cargando cursos 2025:', err),
     });
   }
 
@@ -91,6 +84,61 @@ export class Slider implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.onResize);
   }
 
+  // ── Arma el carrusel intercalado (curso ↔ portal), con SOLO el 1er portal linkeado
+  private buildSlides(proximos: Curso2025[]): Array<SlidePI | SlideCurso> {
+    const slides: Array<SlidePI | SlideCurso> = [];
+    let firstPortalLinked = false;
+
+    const makePortal = (i: number): SlidePI => {
+      const imgD = this.portalImgsDesktop[i % this.portalImgsDesktop.length];
+      const imgM = this.portalImgsMobile[i % this.portalImgsMobile.length];
+      const link = !firstPortalLinked;       // link solo para el PRIMERO
+      if (!firstPortalLinked) firstPortalLinked = true;
+
+      return {
+        tipo: 'pi',
+        imagenDesktop: imgD,
+        imagenMobile: imgM,
+        imagen: this.isMobile ? imgM : imgD,
+        link,
+      };
+    };
+
+    if (proximos.length === 0) {
+      for (let i = 0; i < this.portalImgsDesktop.length; i++) {
+        slides.push(makePortal(i));
+      }
+      return slides;
+    }
+
+    const maxLen = Math.max(proximos.length, this.portalImgsDesktop.length);
+    for (let i = 0; i < maxLen; i++) {
+      const c = proximos[i % proximos.length];
+      slides.push({
+        tipo: 'curso',
+        id: c.id,
+        titulo: c.titulo,
+        descripcion: c.descripcion_breve ?? '',
+        imagen: c.imagen,
+        estado: c.estado as Estado,
+        fecha_inicio: c.fecha_inicio ?? '',
+      });
+
+      slides.push(makePortal(i));
+    }
+
+    return slides;
+  }
+
+  private updatePortalImagesForViewport(): void {
+    for (const s of this.cursosProximos) {
+      if (s.tipo === 'pi') {
+        s.imagen = this.isMobile ? s.imagenMobile : s.imagenDesktop;
+      }
+    }
+  }
+
+  // ── Navegación
   startAutoSlide(): void {
     this.stopAutoSlide();
     this.autoSlideInterval = setInterval(() => this.next(), 5000);
@@ -120,8 +168,8 @@ export class Slider implements OnInit, OnDestroy {
     return index === this.currentIndex ? 'slide active' : 'slide';
   }
 
+  // ── Util
   private checkScreenSize(): void {
-    // <1024px = menor a escritorio
     this.isMobile = window.innerWidth < 1024;
   }
 

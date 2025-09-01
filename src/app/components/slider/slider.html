@@ -12,9 +12,9 @@
 
         <!-- Slide: Portal de Empleo PI -->
         <ng-container *ngIf="c.tipo === 'pi'">
-          <!-- Escritorio: imagen clickeable a Portal -->
+          <!-- SOLO el primer portal es link -->
           <a
-            *ngIf="!isMobile"
+            *ngIf="c.link"
             href="https://empleopi.jujuy.gob.ar"
             target="_blank"
             rel="noopener"
@@ -23,20 +23,12 @@
             aria-label="Ir al Portal de Empleo"
           ></a>
 
-          <!-- Móvil: fondo institucional + mensaje y botón -->
-          <div *ngIf="isMobile" class="slide-img slide-img--institucional">
-            <div class="portal-mobile-content">
-              <h2 class="portal-mobile-msg">¿Ya terminaste tu curso?</h2>
-              <a
-                class="btn-portal"
-                href="https://empleopi.jujuy.gob.ar"
-                target="_blank"
-                rel="noopener"
-              >
-                🌐 Ingresar al Portal
-              </a>
-            </div>
-          </div>
+          <!-- Los demás portales son solo imagen -->
+          <div
+            *ngIf="!c.link"
+            class="slide-img slide-img--portal"
+            [style.background-image]="'url(' + c.imagen + ')'"
+          ></div>
         </ng-container>
 
         <!-- Slide: Curso próximo -->

@@ -8,13 +8,19 @@
     aria-modal="true"
     aria-labelledby="introTitle"
   >
-    <button class="intro-close" (click)="closeIntroModal()" aria-label="Cerrar">×</button>
+    <button class="intro-close" (click)="closeIntroModal()" aria-label="Cerrar">
+      ×
+    </button>
 
     <img
-      src="assets/img/ella.png"
+      src="assets/img/ella.webp"
       alt="Avatar asistente virtual Camila"
       class="intro-avatar"
+      width="512"
+      height="512"
       loading="eager"
+      decoding="async"
+      fetchpriority="high"
     />
 
     <div class="intro-texto">
@@ -23,29 +29,32 @@
         Asistente virtual <span class="resaltado">24/7</span>
       </h2>
 
-      <!-- Versión DESKTOP/TABLET (igual a la original) -->
       <div class="intro-copy">
-        <p>Buscá mi <span class="resaltado">Casco Amarillo</span> abajo a la derecha.</p>
+        <p>
+          Buscá mi <span class="resaltado">Casco Amarillo</span> abajo a la
+          derecha.
+        </p>
         <p>
           Preguntame por <span class="resaltado">fechas</span>,
           <span class="resaltado">requisitos</span> e
           <span class="resaltado">inscripción</span>.
         </p>
-        <p>Te recomiendo el <span class="resaltado">curso ideal</span> según tu perfil.</p>
+        <p>
+          Te recomiendo el <span class="resaltado">curso ideal</span> según tu
+          perfil.
+        </p>
       </div>
 
-      <!-- Versión MÓVIL (texto compacto) -->
       <div class="intro-compact">
         <p>Buscá mi <span class="resaltado">Casco Amarillo</span></p>
         <p><span class="resaltado">Preguntame</span> y</p>
-        <p>¡Aclarare todas tus <span class="resaltado">dudas</span>!</p>
+        <p>¡Aclararé todas tus <span class="resaltado">dudas</span>!</p>
       </div>
 
       <button class="intro-btn" (click)="closeIntroModal()">Entiendo</button>
     </div>
   </div>
 </div>
-
 
 <!-- ────────────────────────────────────────────────────────── -->
 
@@ -54,10 +63,14 @@
     <!-- Logo izquierda (Academia) -->
     <div class="banner__img">
       <img
-        src="assets/img/academia.png"
+        src="assets/img/academia.webp"
         alt="Academia de Oficios"
         class="logo-academia"
         loading="eager"
+        width="1280"
+        height="1125"
+        decoding="async"
+        fetchpriority="high"
       />
     </div>
 
@@ -73,10 +86,13 @@
     <!-- Logo derecha (Gobierno) -->
     <div class="banner__img">
       <img
-        src="assets/img/gobierno-jujuy-abajo.png"
+        src="assets/img/gobierno-jujuy-abajo.webp"
         alt="Gobierno de Jujuy"
         class="logo-gobierno-banner"
         loading="eager"
+        width="280"
+        height="80"
+        decoding="async"
       />
     </div>
   </div>
@@ -84,10 +100,14 @@
   <!-- 🔽 Slider de cursos próximos -->
   <app-slider></app-slider>
 
-  <!-- ░░ Banner recordatorio Chatbot ░░ -->
-  <div class="banner banner--chatbot">
+  <section
+    class="banner banner--chatbot"
+    aria-labelledby="chatbot-banner-titulo"
+  >
     <div class="banner__texto">
-      <h2 class="banner__titulo">¿Tenés dudas sobre los cursos?</h2>
+      <h2 id="chatbot-banner-titulo" class="banner__titulo">
+        ¿Tenés dudas sobre los cursos?
+      </h2>
       <p class="banner__subtitulo">
         Hacé clic en el <span class="resaltado">casco amarillo</span> abajo a la
         derecha.
@@ -96,13 +116,17 @@
 
     <div class="banner__img">
       <img
-        src="assets/img/avatar-chatbot.png"
-        alt="Avatar Chatbot Gorrito"
-        loading="lazy"
+        src="assets/img/avatar-chatbot.webp"
+        alt=""
+        aria-hidden="true"
+        role="presentation"
+        width="1280"
+        height="922"
         decoding="async"
+        fetchpriority="high"
       />
     </div>
-  </div>
+  </section>
 
   <!-- Título y filtro -->
   <div class="header-cursos">
@@ -165,12 +189,10 @@
 
         <p class="curso-descripcion" (scroll)="onScroll($event)">
           {{ curso.descripcion }}
-
           <img
             *ngIf="curso.imagen"
             class="overlay-img"
             [src]="curso.imagen"
-            loading="lazy"
             decoding="async"
             alt="Imagen de {{ curso.titulo }}"
           />
@@ -188,7 +210,7 @@
         </div>
 
         <div class="fecha-inicio">
-          <img src="assets/img/icono-calendario.png" alt="Ícono calendario" />
+          <img src="assets/img/icono-calendario.svg" alt="Ícono calendario" />
           <span>Comienza: {{ curso.fecha_inicio | date:'dd/MM/yyyy' }}</span>
         </div>
       </div>

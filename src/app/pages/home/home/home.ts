@@ -1,11 +1,6 @@
 /* ───────────────────────────── home.component.ts ───────────────────────────── */
 
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule }  from '@angular/forms';
 import { RouterLink }   from '@angular/router';
@@ -50,147 +45,61 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loading = false;
 
+  // (opcional) si lo usabas para otra cosa, podés removerlo:
   eagerCount = 6;
-
-  // Observers
-  private resizeObs!: ResizeObserver;
-  private domObs?: MutationObserver;
 
   constructor(private cursoService: CursoService) {
     if (!HomeComponent.introShown) {
       this.showIntroModal = true;
       HomeComponent.introShown  = true;
-      document.body.style.overflow = 'hidden';
+      this.lockScroll(); // ← evita CLS por barra de scroll
     }
   }
+
+  /* ------------------------------- Modal --------------------------------- */
 
   closeIntroModal(): void {
     this.showIntroModal = false;
-    document.body.style.overflow = '';
+    this.unlockScroll();
+    // abre el chat luego de cerrar el modal (si existe el botón)
     setTimeout(() => {
-      const chatBtn = document.querySelector('.chat-toggle-button') as HTMLElement;
-      if (chatBtn) chatBtn.click();
+      const chatBtn = document.querySelector('.chat-toggle-button') as HTMLElement | null;
+      chatBtn?.click();
     }, 200);
-    requestAnimationFrame(() => this.throttledUpdateScrollBtnPos());
   }
 
-  // ───────────────────────── helpers/throttle/settle ─────────────────────────
-
-  private throttle<T extends (...args: any[]) => void>(fn: T, wait = 120) {
-    let last = 0;
-    let timer: any = null;
-    let lastArgs: any[] | null = null;
-
-    return (...args: Parameters<T>) => {
-      const now = Date.now();
-      lastArgs = args;
-
-      if (now - last >= wait) {
-        last = now;
-        fn(...(lastArgs as any[]));
-        lastArgs = null;
-      } else if (!timer) {
-        const remaining = wait - (now - last);
-        timer = setTimeout(() => {
-          last = Date.now();
-          fn(...(lastArgs as any[]));
-          lastArgs = null;
-          timer = null;
-        }, Math.max(16, remaining));
-      }
-    };
+  private lockScroll() {
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+  }
+  private unlockScroll() {
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
   }
 
-  private afterSettled(cb: () => void) {
-    // 2 frames → da tiempo a fonts/imagenes/estilos diferidos
-    requestAnimationFrame(() => requestAnimationFrame(cb));
-  }
-
-  // ───────────────────────── posicionamiento del botón ───────────────────────
-
-  private updateScrollBtnPos = (): void => {
-    const btn       = document.getElementById('scrollTopBtn') as HTMLElement | null;
-    const container = document.querySelector('.container') as HTMLElement | null;
-    if (!btn || !container) return;
-
-    const rect  = container.getBoundingClientRect();
-    const btnW  = btn.offsetWidth || 48;
-    const minPad = 16;
-
-    // gutter = margen entre viewport y container (izquierda)
-    const gutterLeft = Math.max(rect.left, 0);
-
-    // Ideal: centrar el botón en la canaleta entre borde de pantalla y container
-    const idealLeft = Math.max((gutterLeft - btnW) / 2, minPad);
-
-    // Si no hay canaleta real (container full‑width), anclamos a la derecha.
-    if (gutterLeft > btnW + minPad) {
-      btn.style.left  = `${idealLeft}px`;
-      btn.style.right = 'auto';
-    } else {
-      btn.style.left  = 'auto';
-      btn.style.right = `${minPad}px`;
-    }
-  };
-
-  private throttledUpdateScrollBtnPos = this.throttle(this.updateScrollBtnPos.bind(this), 120);
-
-  // ───────────────────────── lifecycle ───────────────────────────────────────
+  /* ------------------------------ Lifecycle ------------------------------ */
 
   ngOnInit(): void {
     this.setYear('2025');
   }
 
+  // Solo visibilidad del botón "arriba" (sin moverlo por JS)
   private boundOnScroll = () => {
     const btn = document.getElementById('scrollTopBtn');
     if (btn) btn.classList.toggle('visible', window.scrollY > 300);
-    this.throttledUpdateScrollBtnPos();
-  };
-
-  private boundOnResize = () => {
-    this.throttledUpdateScrollBtnPos();
   };
 
   ngAfterViewInit(): void {
-    // esperar a que asiente el layout inicial
-    this.afterSettled(() => this.throttledUpdateScrollBtnPos());
-
-    const container = document.querySelector('.container') as HTMLElement | null;
-
-    // ResizeObserver sobre el container
-    if (container && 'ResizeObserver' in window) {
-      this.resizeObs = new ResizeObserver(() => this.throttledUpdateScrollBtnPos());
-      this.resizeObs.observe(container);
-    }
-
-    // MutationObserver para cambios de DOM (cards que entran/salen)
-    this.domObs = new MutationObserver(() =>
-      this.afterSettled(() => this.throttledUpdateScrollBtnPos())
-    );
-    this.domObs.observe(container ?? document.body, { childList: true, subtree: true });
-
-    // Reposicionar cuando cargan imágenes (evita flicker por reflow)
-    const scope = container ?? document;
-    const imgs = scope.querySelectorAll('img');
-    imgs.forEach(img => {
-      if (!img.complete) {
-        img.addEventListener('load', () => this.throttledUpdateScrollBtnPos(), { once: true });
-      }
-    });
-
     window.addEventListener('scroll', this.boundOnScroll, { passive: true });
-    window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('load', () => this.throttledUpdateScrollBtnPos(), { once: true });
+    // estado inicial por si se entra scrolleado
+    this.boundOnScroll();
   }
 
   ngOnDestroy(): void {
-    if (this.resizeObs) this.resizeObs.disconnect();
-    if (this.domObs) this.domObs.disconnect();
     window.removeEventListener('scroll', this.boundOnScroll);
-    window.removeEventListener('resize', this.boundOnResize);
   }
 
-  // ───────────────────────── data load ───────────────────────────────────────
+  /* ------------------------------ Data load ------------------------------ */
 
   private loadCursos2024(): void {
     this.loading = true;
@@ -241,11 +150,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedYear = y;
     this.localidadesUnicas = [];
     this.localidadSeleccionada = '';
-    if (y === '2024') {
-      this.loadCursos2024();
-    } else {
-      this.loadCursos2025();
-    }
+    if (y === '2024') this.loadCursos2024();
+    else             this.loadCursos2025();
   }
 
   cursosFiltrados(): HomeCursoCard[] {
@@ -256,6 +162,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openForm(url: string): void { window.open(url, '_blank'); }
+
+  /* ----------------------------- UI helpers ------------------------------ */
 
   getEstadoTexto(estado: Estado): string {
     return {
@@ -283,7 +191,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ───────────────────────── mapping/sorting ─────────────────────────────────
+  /* --------------------------- Mapping/Sorting --------------------------- */
 
   private mapCurso2024ToCard(c: Curso): HomeCursoCard {
     const locs = Array.isArray(c.localidades) ? c.localidades : [];
@@ -320,18 +228,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private applyCards(cards: HomeCursoCard[]): void {
     const todas = cards.flatMap(c => c.localidades ?? []);
     this.localidadesUnicas = [...new Set(todas)].sort();
+
     this.cursosCards = cards.sort((a, b) => {
       const eo = this.getEstadoOrden(a.estado) - this.getEstadoOrden(b.estado);
       if (eo !== 0) return eo;
       const da = this.safeDate(a.fecha_inicio);
       const db = this.safeDate(b.fecha_inicio);
       return da - db;
-    });
-
-    // reposicionar tras pintar y con micro‑retry para imágenes que entren 1 tick después
-    requestAnimationFrame(() => {
-      this.throttledUpdateScrollBtnPos();
-      setTimeout(() => this.throttledUpdateScrollBtnPos(), 120);
     });
   }
 
@@ -353,5 +256,5 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trackById(index: number, item: { id: number; origen?: '2024' | '2025' }): string | number {
     return item?.origen ? `${item.origen}-${item.id}` : item.id;
-    }
+  }
 }

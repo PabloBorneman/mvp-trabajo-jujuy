@@ -1,4 +1,4 @@
-/* ░░ CONTENEDOR SLIDER ░░ */
+/* ░░ SLIDER – CLS SAFE (aspect-ratio) ░░ */
 .slider-banner {
   width: 100%;
   max-width: 1140px;
@@ -7,15 +7,17 @@
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  height: 260px;
-  min-height: 260px;
+  aspect-ratio: 320 / 73;           /* Desktop: 1280x292 */
+  /* Opcional para evitar monstruos en pantallas ultra-altas: */
+  max-height: 80vh;
+  contain: layout paint;             /* ayuda a aislar reflow/paint */
 }
 
-/* ⬆ ALTURA dinámica para pantallas con posible solapamiento */
-@media (min-width: 481px) and (max-width: 1140px) {
+/* Móvil: usar la variante 1280x1040 (16/13) */
+@media (max-width: 1023px) {
   .slider-banner {
-    height: 310px;
-    min-height: 310px;
+    aspect-ratio: 16 / 13;          /* Mobile: 1280x1040 */
+    max-height: 82vh;
   }
 }
 
@@ -25,14 +27,15 @@
   height: 100%;
 }
 
-/* ░░ SLIDES CON FADE ░░ */
+/* ░░ SLIDES con fade (no mueven layout) ░░ */
 .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  transition: opacity 350ms ease-in-out, visibility 350ms ease-in-out;
   pointer-events: none;
+  will-change: opacity;
 }
 
 .slide.active {
@@ -42,76 +45,30 @@
   z-index: 5;
 }
 
-/* ░░ IMÁGENES ░░ */
-
-/* Cursos → con filtro oscuro */
+/* ░░ IMÁGENES como background ░░ */
+/* Cursos → con filtro oscuro para contraste de texto */
 .slide-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: no-repeat center / cover;
   filter: brightness(0.55);
   z-index: 0;
 }
 
-/* Portal en escritorio → imagen sin filtro */
+/* Portal (PI) en cualquier viewport → sin filtro */
 .slide-img--portal {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   filter: none;
-  z-index: 0;
 }
 
-/* Portal en móvil → fondo azul institucional */
-.slide-img--institucional {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-primario);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ░░ CONTENIDO MÓVIL DEL PORTAL ░░ */
-.portal-mobile-content {
-  text-align: center;
-  color: var(--color-blanco);
-  padding: 1rem;
-  font-family: 'Poppins', sans-serif;
-}
-
-.portal-mobile-msg {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* ░░ OVERLAY CLICKEABLE SOLO PARA SLIDE PI ░░ */
-.link-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  text-indent: -9999px;
-}
-
-/* ░░ CONTENIDO FLEX VERTICAL ░░ */
+/* ░░ CONTENIDO ░░ */
 .slide-texto {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; /* título arriba, botón abajo */
   align-items: center;
   text-align: center;
   padding: 1rem;
@@ -123,7 +80,6 @@
   gap: clamp(0.3rem, 1.8vh, 1rem);
 }
 
-/* ░░ TÍTULO ░░ */
 .titulo-curso {
   font-size: 2rem;
   font-weight: 700;
@@ -135,12 +91,11 @@
   overflow-wrap: break-word;
 }
 
-/* 🔹 Evitar superposición con estado-label */
+/* Evitar superposición con estado-label */
 .estado-label + .slide-texto .titulo-curso {
   margin-top: 2.5rem;
 }
 
-/* ░░ DESCRIPCIÓN DEL CURSO ░░ */
 .descripcion-curso {
   font-size: 1.15rem;
   color: var(--color-blanco);
@@ -160,18 +115,13 @@
   border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.25s;
+  transition: background 0.2s ease-in-out;
   font-family: 'Poppins', sans-serif;
 }
 
 .btn-banner:hover,
 .btn-portal:hover {
   background: #ffa733;
-}
-
-.btn-portal {
-  margin-top: 0.8rem;
-  display: inline-block;
 }
 
 /* ░░ FLECHAS ░░ */
@@ -186,12 +136,14 @@
   z-index: 10;
   cursor: pointer;
   padding: 0 1rem;
+  line-height: 1;
+  user-select: none;
 }
 
 .nav.prev { left: 0; }
 .nav.next { right: 0; }
 
-/* ░░ ETIQUETA AMARILLA ░░ */
+/* ░░ ETIQUETA ESTADO ░░ */
 .estado-label {
   position: absolute;
   top: 18px;
@@ -208,39 +160,20 @@
 }
 
 /* ░░ BREAKPOINTS ░░ */
-@media (max-width: 1023px) {
-  .portal-mobile-content {
-    display: block;
-  }
-}
-
-@media (min-width: 1024px) {
-  .portal-mobile-content {
-    display: none;
-  }
+@media (max-width: 920px) and (orientation: landscape) {
+  .titulo-curso { margin-top: 0.8rem; }
 }
 
 @media (max-width: 768px) {
-  .titulo-curso {
-    font-size: 1.5rem;
-  }
-
-  .descripcion-curso {
-    display: none;
-  }
-
+  .titulo-curso { font-size: 1.5rem; }
+  .descripcion-curso { display: none; }
   .btn-banner,
-  .btn-portal {
-    font-size: 0.9rem;
-    padding: 0.5rem 1.1rem;
-  }
-
+  .btn-portal { font-size: 0.9rem; padding: 0.5rem 1.1rem; }
   .estado-label {
     font-size: 0.75rem;
     padding: 0.2rem 0.7rem;
     top: 44px;
   }
-
   .slide-curso {
     justify-content: center;
     gap: 0.9rem;
@@ -250,35 +183,17 @@
 
 @media (max-width: 480px) {
   .estado-label { top: 44px; }
-
-  .slide-curso {
-    padding-top: 2.8rem;
-    gap: 0.5rem;
-  }
-
+  .slide-curso { padding-top: 2.8rem; gap: 0.5rem; }
   .slide-curso .btn-banner { margin-top: 0; }
 }
 
-/* ░░ FIX UNIVERSAL 481–1140 px ░░ */
-@media (min-width: 481px) and (max-width: 1140px) {
-  .estado-label {
-    top: 50px !important;
-    z-index: 1 !important;
-  }
-
-  .slide-texto {
-    padding-top: 4.2rem !important;
-  }
+/* ░░ Accesibilidad: respeta reduce motion ░░ */
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: none; }
+  .btn-banner, .btn-portal { transition: none; }
 }
 
-/* ░░ LANDSCAPE móviles ░░ */
-@media (max-width: 920px) and (orientation: landscape) {
-  .titulo-curso {
-    margin-top: 0.8rem;
-  }
-}
-
-/* Quitar oscurecido en el slide institucional (móvil) */
-.slide-img--institucional {
-  filter: none !important; /* anula el brightness de .slide-img */
-}
+/* 🔻 Eliminado el bloque móvil institucional (para no romper CLS):
+   - .portal-mobile-content
+   - .slide-img--institucional
+   (Ya no existen en el HTML) */
